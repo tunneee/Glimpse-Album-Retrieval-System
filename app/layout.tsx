@@ -22,7 +22,7 @@ export default function RootLayout({
           <header className=" w-full] xl:h-[80px]">
             <div className="max-w-[1440px] mx-[auto] h-full"></div>
           </header>
-          <main className="justify-start flex max-w-[1440px] xl:h-[calc(100vh-80px)] mx-[auto]">
+          <main className="relative justify-start flex max-w-[1440px] xl:h-[calc(100vh-80px)] mx-[auto]">
             <Header></Header>
             <Routes>
               <Route path="/album" element={<AlbumPage />}></Route>
