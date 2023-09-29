@@ -67,11 +67,7 @@ const Album = () => {
   ];
 
   const card = useRef();
-  useEffect(() => {
-    console.log(card.current);
-  }, [card]);
   var listCard : Array<string> = [];
-  console.log('card', card)
   return (
     <section className=" xl:gap-[40px] overflow-x-hidden h-[calc(100%-10px)] w-full flex overflow-y-scroll flex-col bg-[#fff] rounded-[20px] xl:pt-[40px] xl:pl-[40px] ">
       {data?.map((element: Props, index: number) => {

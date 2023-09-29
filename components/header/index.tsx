@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { ReactDOM } from "react";
 import { Album, Result, Face, Setting } from "../../assets/images/header/index";
 import { motion } from "framer-motion";
@@ -18,6 +18,7 @@ const variants: any = {
   },
 };
 function Index() {
+  const location = useLocation()
   const album = useRef(null);
   const result = useRef(null);
   const face = useRef(null);
@@ -26,7 +27,34 @@ function Index() {
     const { offsetTop }: any = album?.current || 0;
     return { y: offsetTop, action: 1 };
   });
-
+  useEffect(()=>{
+    switch(location.pathname) {
+      case "/album" : 
+        setAction((): any => {
+        const { offsetTop }: any = album?.current;
+        return { y: offsetTop, action: 1 };
+        });
+        break;
+      case "/result" : 
+        setAction((): any => {
+        const { offsetTop }: any = result?.current;
+        return { y: offsetTop, action: 2 };
+        });
+        break;
+      case "/face" : 
+        setAction((): any => {
+        const { offsetTop }: any = face?.current;
+        return { y: offsetTop, action: 3 };
+        });
+        break;
+      case "/setting" : 
+        setAction((): any => {
+        const { offsetTop }: any = setting?.current;
+        return { y: offsetTop, action: 4 };
+        });
+        break;
+    }
+  }, [location.pathname])
   return (
     <>
       <nav className=" xl:w-[180px]  py-[60px] h-full bg-[#202020] overflow-hidden">
@@ -45,12 +73,6 @@ function Index() {
             className="xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
           >
             <Link
-              onClick={(e: any) => {
-                setAction((): any => {
-                  const { offsetTop }: any = album?.current;
-                  return { y: offsetTop, action: 1 };
-                });
-              }}
               to="/album"
               className="flex xl:gap-[10px] items-center"
             >
@@ -69,12 +91,6 @@ function Index() {
             className=" xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
           >
             <Link
-              onClick={(e: any) => {
-                setAction((): any => {
-                  const { offsetTop }: any = result?.current;
-                  return { y: offsetTop, action: 2 };
-                });
-              }}
               to="/result"
               className="flex xl:gap-[10px] items-center "
             >
@@ -93,12 +109,6 @@ function Index() {
             className=" xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
           >
             <Link
-              onClick={(e: any) => {
-                setAction((): any => {
-                  const { offsetTop }: any = face?.current;
-                  return { y: offsetTop, action: 3 };
-                });
-              }}
               to="/face"
               className="flex xl:gap-[10px] items-center"
             >
@@ -117,12 +127,6 @@ function Index() {
             className=" xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
           >
             <Link
-              onClick={(e: any) => {
-                setAction((): any => {
-                  const { offsetTop }: any = setting?.current;
-                  return { y: offsetTop, action: 4 };
-                });
-              }}
               to="/setting"
               className="flex xl:gap-[10px] items-center"
             >
