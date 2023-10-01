@@ -15,11 +15,7 @@ import AlbumPage from "@/components/home/album";
 import ResultPage from "@/components/home/result";
 import FacePage from "@/components/home/face";
 import SettingPage from "@/components/home/setting";
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout() {
   return (
     <BrowserRouter>
       <html lang="en">
