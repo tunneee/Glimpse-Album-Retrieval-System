@@ -14,17 +14,20 @@
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/index.tsx"
+    {"src": "/(.*)",
+      "dest": "components/home/album/index.tsx"
     },
-    {
-      "src": "^/static/(.*)",
-      "dest": "/client/static/$1"
+    {"src": "/album",
+      "dest": "components/home/album/index.tsx"
     },
-    {
-       "src": "/(.*)\\.png",
-       "dest": "/client/$1.png"
-     }
+    {"src": "/result",
+      "dest": "components/home/result/index.tsx"
+    },
+    {"src": "/(.*)",
+      "dest": "components/home/face/index.tsx"
+    },
+    {"src": "/(.*)",
+      "dest": "components/home/setting/index.tsx"
+    }
   ]
 }
