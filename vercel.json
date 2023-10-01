@@ -15,19 +15,19 @@
   ],
   "routes": [
     {"src": "/(.*)",
-      "dest": "/components/home/album/index.tsx"
+      "dest": "/"
     },
     {"src": "/album",
-      "dest": "/components/home/album/index.tsx"
+      "dest": "/"
     },
     {"src": "/result",
-      "dest": "/components/home/result/index.tsx"
+      "dest": "/"
     },
-    {"src": "/(.*)",
-      "dest": "/components/home/face/index.tsx"
+    {"src": "/setting",
+      "dest": "/"
     },
-    {"src": "/(.*)",
-      "dest": "/components/home/setting/index.tsx"
+    {"src": "/face  ",
+      "dest": "/"
     }
   ]
 }
