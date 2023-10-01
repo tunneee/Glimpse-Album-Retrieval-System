@@ -6,10 +6,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 const inter = Inter({ subsets: ["latin"] });
 import Header from "../components/header";
 import Tool from "../components/tool";
-import AlbumPage from "./pages/album/page";
-import ResultPage from "./pages/result/page";
-import FacePage from "./pages/face/page";
-import SettingPage from "./pages/setting/page";
+import AlbumPage from "@/components/home/album";
+import ResultPage from "@/components/home/result";
+import FacePage from "@/components/home/face";
+import SettingPage from "@/components/home/setting";
 export default function RootLayout({
   children,
 }: {
