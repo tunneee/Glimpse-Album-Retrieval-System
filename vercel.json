@@ -15,19 +15,19 @@
   ],
   "routes": [
     {"src": "/(.*)",
-      "dest": "components/home/album/index.tsx"
+      "dest": "/components/home/album/index.tsx"
     },
     {"src": "/album",
-      "dest": "components/home/album/index.tsx"
+      "dest": "/components/home/album/index.tsx"
     },
     {"src": "/result",
-      "dest": "components/home/result/index.tsx"
+      "dest": "/components/home/result/index.tsx"
     },
     {"src": "/(.*)",
-      "dest": "components/home/face/index.tsx"
+      "dest": "/components/home/face/index.tsx"
     },
     {"src": "/(.*)",
-      "dest": "components/home/setting/index.tsx"
+      "dest": "/components/home/setting/index.tsx"
     }
   ]
 }
