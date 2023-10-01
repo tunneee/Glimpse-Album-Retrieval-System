@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useRef, useState } from "react";
 import mic from "@/assets/images/section__input/mic.svg";
 import send from "@/assets/images/section__input/send.svg";
