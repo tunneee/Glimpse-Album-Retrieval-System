@@ -6,10 +6,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 const inter = Inter({ subsets: ["latin"] });
 import Header from "../components/header";
 import Tool from "../components/tool";
-import AlbumPage from "../components/home/album";
-import ResultPage from "../components/home/result";
-import FacePage from "../components/home/face";
-import SettingPage from "../components/home/setting";
+import AlbumPage from "./pages/album";
+import ResultPage from "./pages/result";
+import FacePage from "./pages/face";
+import SettingPage from "./pages/setting";
 export default function RootLayout({
   children,
 }: {
@@ -26,11 +26,11 @@ export default function RootLayout({
             <Header></Header>
             <section className="overflow-y-scroll  h-[calc(100%-10px)] w-full flex flex-col bg-[#fff] rounded-[20px_0_0_20px] xl:pt-[40px] xl:pb-[120px] xl:pl-[40px] lg:gap-[40px] sm:gap-[20px]">
               <Routes>
-                <Route path="/album/" element={<AlbumPage />}></Route>
+                <Route path="/album" element={<AlbumPage />}></Route>
                 {/* <Route path="/" element={<AlbumPage />}></Route> */}
-                <Route path="/result/" element={<ResultPage />}></Route>
-                <Route path="/face/" element={<FacePage />}></Route>
-                <Route path="/setting/" element={<SettingPage />}></Route>
+                <Route path="/result" element={<ResultPage />}></Route>
+                <Route path="/face" element={<FacePage />}></Route>
+                <Route path="/setting" element={<SettingPage />}></Route>
               </Routes>
             </section>
           </main>

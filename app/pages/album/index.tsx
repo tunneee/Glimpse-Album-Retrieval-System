@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import Card from "../card";
+import Card from "../../../components/home/card";
 import SectionInput from "@/components/SectionInput";
 type Props = {
   id: number;

@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./style.module.css";
 import mic from "@/assets/images/section__input/mic.svg";
 import send from "@/assets/images/section__input/send.svg";
-import ResultPage from "@/components/home/result"
 import Image from "next/image";
 import { Routes, useNavigate, Route } from "react-router-dom";
 const SectionInput = () => {

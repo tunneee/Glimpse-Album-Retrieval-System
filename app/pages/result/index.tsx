@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import Card from '../card';
+import Card from '@/components/home/card';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 type ImageProps = {
