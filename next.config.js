@@ -4,5 +4,8 @@ module.exports = {
     images: {
       domains: ['wallpapercave.com'],
     },
+    experimental: {
+      appDir: true,
+    }
   }
   
