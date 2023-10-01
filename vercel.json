@@ -1,23 +1,23 @@
 {
   "rewrites": [
     {
-      "src": "/",
+      "source": "/",
       "dest": "/"
     },
     {
-      "src": "/album",
+      "source": "/album",
       "dest": "/"
     },
     {
-      "src": "/result",
+      "source": "/result",
       "dest": "/"
     },
     {
-      "src": "/face",
+      "source": "/face",
       "dest": "/"
     },
     {
-      "src": "/setting",
+      "source": "/setting",
       "dest": "/"
     }
   ]
