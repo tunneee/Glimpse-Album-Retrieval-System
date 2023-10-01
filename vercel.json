@@ -2,23 +2,23 @@
   "rewrites": [
     {
       "source": "/",
-      "destion": "/"
+      "destination": "/"
     },
     {
       "source": "/album",
-      "destion": "/"
+      "destination": "/"
     },
     {
       "source": "/result",
-      "destion": "/"
+      "destination": "/"
     },
     {
       "source": "/face",
-      "destion": "/"
+      "destination": "/"
     },
     {
       "source": "/setting",
-      "destion": "/"
+      "destination": "/"
     }
   ]
 }
