@@ -1,18 +1,18 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React from "react";
 import imageIcon from "@/assets/images/home/image.svg";
 import videoIcon from "@/assets/images/home/video.svg";
 import { Link } from "react-router-dom";
-import {useState} from "react"
+import { useState } from "react";
 type Props = {
   link: string;
   type: string;
   id: number;
-  thumnail : string | null
+  thumnail: string | null;
 };
 const Card = (props: Props) => {
-  const [isplay , setplay] = useState<boolean>(false)
+  const [isplay, setplay] = useState<boolean>(false);
   return (
     <li className="cursor-pointer hover:shadow-[0_0_10px_0px_#202020] transition-shadow duration-200 ease-in-out lg:rounded-[20px] sm:rounded-[10px] relative aspect-[1/1] xl:w-[170px] shadow-[4px_4px_4px_0_rgba(32,32,32,0.25)] overflow-hidden">
       {props.type == "image" ? (
@@ -34,20 +34,21 @@ const Card = (props: Props) => {
             poster={isplay ? "" : props.thumnail || ""}
             className="object-cover  w-[100%] h-[100%]"
             id={`video${props.id}`}
-            onMouseEnter={(e ) =>{
-              const video : HTMLMediaElement | null =  document.querySelector(`#video${props.id}`);
-              video?.play();
-              setplay(true);
+            onMouseEnter={(e) => {
+              const video: HTMLMediaElement | null = document.querySelector(
+                `#video${props.id}`
+              );
+                video?.play();
+                setplay(true);
             }}
-            onMouseLeave={() =>{
-              const video : HTMLMediaElement | null = document.querySelector(`#video${props.id}`);
-              video?.pause();
-              video?.load();
-              setplay(false);
-
+            onMouseLeave={() => {
+              const video: HTMLMediaElement | null = document.querySelector(`#video${props.id}`);
+                video?.pause()
+                video?.load();
+                setplay(false);
             }}
           >
-              <source src={props.link} type="video/mp4"/>
+            <source src={props.link} type="video/mp4" />
           </video>
         </Link>
       )}
