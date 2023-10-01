@@ -1,12 +1,30 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/:path((?!api/).*)",
-      "destination": "/index.html"
+      "src": "api/index.js",
+      "use": "@vercel/node"
     },
     {
-      "source": "/:path(api/.*)",
-      "destination": "/api"
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
     }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.tsx"
+    },
+    {
+      "src": "^/static/(.*)",
+      "dest": "/client/static/$1"
+    },
+    {
+       "src": "/(.*)\\.png",
+       "dest": "/client/$1.png"
+     }
   ]
 }
