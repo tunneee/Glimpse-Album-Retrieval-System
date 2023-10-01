@@ -27,7 +27,7 @@ export default function RootLayout({
             <section className="overflow-y-scroll  h-[calc(100%-10px)] w-full flex flex-col bg-[#fff] rounded-[20px_0_0_20px] xl:pt-[40px] xl:pb-[120px] xl:pl-[40px] lg:gap-[40px] sm:gap-[20px]">
               <Routes>
                 <Route path="/album/" element={<AlbumPage />}></Route>
-                <Route path="/" element={<AlbumPage />}></Route>
+                {/* <Route path="/" element={<AlbumPage />}></Route> */}
                 <Route path="/result/" element={<ResultPage />}></Route>
                 <Route path="/face/" element={<FacePage />}></Route>
                 <Route path="/setting/" element={<SettingPage />}></Route>
