@@ -9,22 +9,21 @@ const SectionInput = () => {
   const navigate = useNavigate();
   const submitAnswer = (text : string) =>{
     navigate("/result");
-    let arr =[];
-    arr.push(localStorage.getItem("answer") || undefined)
-    arr.push(text);
-    console.log('arr', arr);
-    localStorage.setItem("answer" ,arr);
+    let arr = JSON.parse(localStorage.getItem("answer") || '[]');
+    arr.push(text)
+    console.log('arr',  arr);
+    localStorage.setItem("answer" ,JSON.stringify(arr));
   }
   const content = useRef(null);
-  const [text, setText] = useState<number>(0);
+  const [text, setText] = useState<string>("");
   const [autoFocus, setAutoFocus] = useState<boolean>(false);
 
   useEffect(() => {
-    if(!autoFocus) return 
+    if(autoFocus) return 
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.key == "Enter") {
         const current = content?.current as unknown as HTMLDivElement;
-        current.focus();
+        current?.focus();
         e.preventDefault();
         setAutoFocus(true);
       }
@@ -33,7 +32,7 @@ const SectionInput = () => {
   return (
     <article
       id="blur"
-      className={`absolute bottom-[10px] left-[160px] right-[20px] rounded-[0_0_0px_20px] xl:py-[20px] xl:px-[180px] `}
+      className={`absolute bottom-[10px] left-[160px] right-[20px] rounded-[0_0_0px_20px] xl:w-[800px] xl:py-[20px] mx-[auto] `}
     >
       <div className="bg-[#202020] w-[100%] justify-between xl:h-[80px] flex  rounded-[10px] overflow-hidden px-[20px] py-[15px]">
         <div className="w-full">
@@ -46,9 +45,8 @@ const SectionInput = () => {
               current.focus();
             }}
             onKeyDown={({key} : React.KeyboardEvent )=>{
-              if(key == "Enter") {
-              const current = content?.current as unknown as HTMLDivElement;
-                submitAnswer(current.innerText)
+              if(key == "Enter" && autoFocus) {
+                submitAnswer(text)
               }
             }}
             onBlur={() => {
@@ -58,10 +56,9 @@ const SectionInput = () => {
             onInput={() => {
               const innerText = (content?.current as unknown as HTMLDivElement)
                 .innerText;
-              setText(innerText.length || 0);
+              setText(innerText);
             }}
-            contentEditable="true"
-            placeholder="Nhấp Enter để nhập"
+            contentEditable={true}
             id="content"
             className="relative h-[25px] bg-[transparent] placeholder:text-[#ffffff81]  xl:w-full outline-0 caret-[#fff] text-[#fff]"
           >
@@ -69,25 +66,27 @@ const SectionInput = () => {
             <p
               spellCheck={false}
               className={`${
-                autoFocus ? "hidden" : ""
+                autoFocus || text ? "hidden" : ""
               } h-full z-[1] absolute top-0 left-0`}
             >
-              Nhấp{" "}
+              Nhấp hoặc nhấn{" "}
               <span 
                 spellCheck={false}
-                className={`  p-[5px] bg-[#ffffff35] rounded-[5px]`}>
+                className={`  p-[5px] bg-[#ffffff35] rounded-[4px]`}>
                 Enter
               </span>{" "}
               để nhập
             </p>
           </div>
-          <span className="text-[#ffffff81]">{text}/2000</span>
+          <span className="text-[#ffffff81]">{text.length}/2000</span>
         </div>
         <div className="flex flex-col justify-between items-center">
           <button>
             <Image src={mic} alt="mic" width={20} height={25}></Image>
           </button>
-          <button>
+          <button onClick={() =>{
+             submitAnswer(text)
+          }}>
             <Image
               src={send}
               alt="mic"

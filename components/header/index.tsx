@@ -57,7 +57,7 @@ function Index() {
   }, [location.pathname])
   return (
     <>
-      <nav className=" xl:w-[180px]  py-[60px] h-full bg-[#202020] overflow-hidden">
+      <nav className="xl:w-[180px]  py-[60px] h-full bg-[#202020] overflow-hidden">
         <ul className="relative flex flex-col justify-between text-[#fff] h-full max-h-[750px]">
           <motion.div
             animate={"animetion"}
