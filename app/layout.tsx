@@ -11,9 +11,9 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 import Header from "../components/header";
 import Tool from "../components/tool";
-import AlbumPage from "@/components/home/album";
-import ResultPage from "@/components/home/result";
-import FacePage from "@/components/home/face";
+import AlbumPage from "@/components/home/album/page";
+import ResultPage from "@/components/home/result/page";
+import FacePage from "@/components/home/face/page";
 import SettingPage from "@/components/home/setting";
 export default function RootLayout() {
   return (

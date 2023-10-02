@@ -1,7 +1,7 @@
 "use client"
 import React,{useState} from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import Card from '@/components/home/card';
+import Card from '@/components/home/card/page';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 type ImageProps = {
