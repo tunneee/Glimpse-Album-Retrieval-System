@@ -11,10 +11,10 @@ import {
 const inter = Inter({ subsets: ["latin"] });
 import Header from "../components/header";
 import Tool from "../components/tool";
-import AlbumPage from "@/components/home/album/page";
-import ResultPage from "@/components/home/result/page";
-import FacePage from "@/components/home/face/page";
-import SettingPage from "@/components/home/setting";
+import AlbumPage from "./album/page";
+import ResultPage from "./result/page";
+import FacePage from "./face/page";
+import SettingPage from "./setting/page";
 export default function RootLayout() {
   return (
     <BrowserRouter>
