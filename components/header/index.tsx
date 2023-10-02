@@ -74,6 +74,7 @@ function Index() {
             className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
+              aria-current="page"
               to="/album"
               className="flex xl:gap-[10px] items-center"
             >
@@ -92,6 +93,7 @@ function Index() {
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
+              aria-current="page"
               to="/result"
               className="flex xl:gap-[10px] items-center "
             >
@@ -110,6 +112,7 @@ function Index() {
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
+              aria-current="page"
               to="/face"
               className="flex xl:gap-[10px] items-center"
             >
@@ -128,6 +131,7 @@ function Index() {
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
+              aria-current="page"
               to="/setting"
               className="flex xl:gap-[10px] items-center"
             >
