@@ -3,15 +3,16 @@ import React, { useEffect, useRef, useState } from "react";
 import mic from "@/assets/images/section__input/mic.svg";
 import send from "@/assets/images/section__input/send.svg";
 import Image from "next/image";
-import { Routes, useNavigate, Route } from "react-router-dom";
+import { useRouter } from 'next/navigation';
+
 const SectionInput = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const submitAnswer = (text : string) =>{
-    navigate("/result");
     let arr = JSON.parse(localStorage.getItem("answer") || '[]');
     arr.push(text)
     console.log('arr',  arr);
     localStorage.setItem("answer" ,JSON.stringify(arr));
+    router.push("/result")
   }
   const content = useRef(null);
   const [text, setText] = useState<string>("");

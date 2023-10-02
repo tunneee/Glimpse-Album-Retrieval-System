@@ -2,10 +2,10 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
-import { ReactDOM } from "react";
 import { Album, Result, Face, Setting } from "../../assets/images/header/index";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from 'next/navigation';
 
 const variants: any = {
   animetion: ({ y }: { y: number }) => {
@@ -19,7 +19,7 @@ const variants: any = {
   },
 };
 function Index() {
-  const location = useLocation()
+  const currentPage = usePathname();
   const album = useRef(null);
   const result = useRef(null);
   const face = useRef(null);
@@ -29,7 +29,7 @@ function Index() {
     return { y: offsetTop, action: 1 };
   });
   useEffect(()=>{
-    switch(location.pathname) {
+    switch(currentPage) {
       case "/album" : 
         setAction((): any => {
         const { offsetTop }: any = album?.current;
@@ -55,7 +55,7 @@ function Index() {
         });
         break;
     }
-  }, [location.pathname])
+  }, [currentPage])
   return (
     <>
       <nav className="xl:min-w-[180px] pl-[20px] lg:min-w-[160px]  py-[60px] h-full bg-[#202020] overflow-hidden">
@@ -75,7 +75,7 @@ function Index() {
           >
             <Link
               aria-current="page"
-              to="/album"
+              href="/album"
               className="flex xl:gap-[10px] items-center"
             >
               <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
@@ -94,7 +94,7 @@ function Index() {
           >
             <Link
               aria-current="page"
-              to="/result"
+              href="/result"
               className="flex xl:gap-[10px] items-center "
             >
               <Result color={action?.action != 2 ? "#fff" : "#202020"}></Result>
@@ -113,7 +113,7 @@ function Index() {
           >
             <Link
               aria-current="page"
-              to="/face"
+              href="/face"
               className="flex xl:gap-[10px] items-center"
             >
               <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
@@ -132,7 +132,7 @@ function Index() {
           >
             <Link
               aria-current="page"
-              to="/setting"
+              href="/setting"
               className="flex xl:gap-[10px] items-center"
             >
               <Setting

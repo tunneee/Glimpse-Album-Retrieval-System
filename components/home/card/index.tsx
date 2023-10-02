@@ -3,8 +3,8 @@ import Image from "next/image";
 import React from "react";
 import imageIcon from "@/assets/images/home/image.svg";
 import videoIcon from "@/assets/images/home/video.svg";
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import Link from "next/link";
 type Props = {
   link: string;
   type: string;
@@ -26,7 +26,7 @@ const Card = (props: Props) => {
           ></Image>
         </picture>
       ) : (
-        <Link to={`/album/video/${props.id}`}>
+        <Link href={`/album/video/${props.id}`}>
           <video
             width={170}
             height={170}
