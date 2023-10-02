@@ -14,7 +14,7 @@ type Props = {
 const Card = (props: Props) => {
   const [isplay, setplay] = useState<boolean>(false);
   return (
-    <li className="cursor-pointer hover:shadow-[0_0_10px_0px_#202020] transition-shadow duration-200 ease-in-out lg:rounded-[20px] sm:rounded-[10px] relative aspect-[1/1] xl:w-[170px] shadow-[4px_4px_4px_0_rgba(32,32,32,0.25)] overflow-hidden">
+    <li className="cursor-pointer hover:shadow-[0_0_10px_0px_#202020] transition-shadow duration-200 ease-in-out lg:rounded-[20px] sm:rounded-[10px] relative aspect-[1/1] xl:w-[170px] lg:w-[calc((100%-40px)/5)] shadow-[4px_4px_4px_0_rgba(32,32,32,0.25)] overflow-hidden">
       {props.type == "image" ? (
         <picture>
           <Image

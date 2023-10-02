@@ -58,20 +58,20 @@ function Index() {
   }, [location.pathname])
   return (
     <>
-      <nav className="xl:w-[180px]  py-[60px] h-full bg-[#202020] overflow-hidden">
-        <ul className="relative flex flex-col justify-between text-[#fff] h-full max-h-[750px]">
+      <nav className="xl:min-w-[180px] pl-[20px] lg:min-w-[160px]  py-[60px] h-full bg-[#202020] overflow-hidden">
+        <ul className="relative flex flex-col justify-between text-[#fff] h-full xl:w-[160px] lg:w-[140px] max-h-[750px]">
           <motion.div
             animate={"animetion"}
             custom={action}
             variants={variants}
-            className={`absolute w-full rounded-[40px_0px_0_40px] bg-[#fff] xl:h-[75px] z-[1]`}
+            className={`absolute w-full rounded-[40px_0px_0_40px] bg-[#fff] lg:h-[75px] z-[1]`}
           >
-            <div className="absolute right-0 xl:w-[30px] xl:h-[30px] bg-[#202020] rounded-full bottom-[100%] shadow-[16px_16px_0_0px_#fff]"></div>
-            <div className="absolute right-0 xl:w-[30px] xl:h-[30px] bg-[#202020] rounded-full top-[100%]  shadow-[16px_-16px_0_0px_#fff]"></div>
+            <div className="absolute right-0 xl:w-[30px] lg:w-[30px] aspect-[1/1] bg-[#202020] rounded-full bottom-[100%] shadow-[16px_16px_0_0px_#fff]"></div>
+            <div className="absolute right-0 xl:w-[30px] lg:w-[30px] aspect-[1/1]  bg-[#202020] rounded-full top-[100%]  shadow-[16px_-16px_0_0px_#fff]"></div>
           </motion.div>
           <li
             ref={album}
-            className="xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
+            className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
               to="/album"
@@ -89,7 +89,7 @@ function Index() {
           </li>
           <li
             ref={result}
-            className=" xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
+            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
               to="/result"
@@ -107,7 +107,7 @@ function Index() {
           </li>
           <li
             ref={face}
-            className=" xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
+            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
               to="/face"
@@ -125,7 +125,7 @@ function Index() {
           </li>
           <li
             ref={setting}
-            className=" xl:pl-[20px] xl:h-[75px] flex items-center z-[2]"
+            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
               to="/setting"

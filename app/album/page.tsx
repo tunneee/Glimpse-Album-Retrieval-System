@@ -106,7 +106,7 @@ const Album = () => {
               <h2 className="font-[600] text-[22px]">
                 Ngày {date[0]}, tháng {date[1]}, năm {date[2]}
               </h2>
-              <ul id="list" className="flex justify-start xl:gap-[10px]">
+              <ul id="list" className="flex justify-start lg:gap-[10px]">
                 {list.map((card : CardProps)=>(
                   <Card thumnail={card.thumnail} id={card.id} key={card.id} link={card.link} type={card.type} ></Card>
                 ))}

@@ -89,7 +89,7 @@ const Index = () => {
           <div className='absolute bottom-[50%] right-[50%] font-[700] text-[#202020] text-[24px] translate-y-1/2 translate-x-1/2'>Chưa có lịch sử search</div>
         ); else { 
           return (
-            <div key={index} className='flex flex-col gap-[10px] '>
+            <div key={index} className='flex flex-col lg:gap-[10px] '>
             <div className='flex justify-between '> 
                 <h2 className='capitalize font-[700] text-[24px] text-[#202020]'>{element}</h2>
                 <Button onClick={() =>{

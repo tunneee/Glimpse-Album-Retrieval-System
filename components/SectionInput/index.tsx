@@ -31,7 +31,7 @@ const SectionInput = () => {
   return (
     <article
       id="blur"
-      className={`absolute bottom-[10px] left-[160px] right-[20px] rounded-[0_0_0px_20px] xl:w-[800px] xl:py-[20px] mx-[auto] `}
+      className={`absolute bottom-[10px] left-[160px] right-[20px] rounded-[0_0_0px_20px] xl:w-[800px] lg:w-[600px] xl:py-[20px] lg:py-[10px] mx-[auto] `}
     >
       <div className="bg-[#202020] w-[100%] justify-between xl:h-[80px] flex  rounded-[10px] overflow-hidden px-[20px] py-[15px]">
         <div className="w-full">
