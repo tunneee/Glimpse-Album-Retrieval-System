@@ -8,11 +8,13 @@ import { useRouter } from 'next/navigation';
 const SectionInput = () => {
   const router = useRouter();
   const submitAnswer = (text : string) =>{
+    if (typeof window !== undefined) {
     let arr = JSON.parse(localStorage.getItem("answer") || '[]');
     arr.push(text)
     console.log('arr',  arr);
     localStorage.setItem("answer" ,JSON.stringify(arr));
     router.push("/result")
+    }
   }
   const content = useRef(null);
   const [text, setText] = useState<string>("");
