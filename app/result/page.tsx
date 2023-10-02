@@ -12,7 +12,9 @@ type ImageProps = {
 };
 const Index = () => {
   const [render, reRender] = useState<boolean>(false);
-  const listAnswer = JSON.parse(localStorage.getItem("answer") || "[false]");
+  if (typeof window !== undefined) {
+  var listAnswer = JSON.parse(localStorage.getItem("answer") || "[false]");
+  }
   const data = [
     {
       id: 1,
@@ -83,7 +85,7 @@ const Index = () => {
   ];
   return (
     <>
-      {listAnswer.map((element: string, index: number) => {
+      {listAnswer?.map((element: string, index: number) => {
         if (!element)
           return (
             <div className="absolute bottom-[50%] right-[50%] font-[700] text-[#202020] text-[24px] translate-y-1/2 translate-x-1/2">
