@@ -25,8 +25,7 @@ function Index() {
   const face = useRef(null);
   const setting = useRef(null);
   const [action, setAction] = useState<any>((): any => {
-    const { offsetTop }: any = album?.current || 0;
-    return { y: offsetTop, action: 1 };
+    return { y: null, action: 1 };
   });
   useEffect(()=>{
     switch(currentPage) {
@@ -74,7 +73,6 @@ function Index() {
             className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
-              aria-current="page"
               href="/album"
               className="flex xl:gap-[10px] items-center"
             >
@@ -93,7 +91,6 @@ function Index() {
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
-              aria-current="page"
               href="/result"
               className="flex xl:gap-[10px] items-center "
             >
@@ -112,7 +109,6 @@ function Index() {
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
-              aria-current="page"
               href="/face"
               className="flex xl:gap-[10px] items-center"
             >
@@ -131,7 +127,6 @@ function Index() {
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
             <Link
-              aria-current="page"
               href="/setting"
               className="flex xl:gap-[10px] items-center"
             >
