@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@/components/home/card";
 import Image from "next/image";
 import { Button } from "@mui/material";
@@ -12,9 +12,7 @@ type ImageProps = {
 };
 const Index = () => {
   const [render, reRender] = useState<boolean>(false);
-  if (typeof window !== undefined) {
-  var listAnswer = JSON.parse(localStorage?.getItem("answer") || '[false]');
-  }
+  var listAnswer = JSON.parse( window ? window.localStorage.getItem("answer") || '[false]' : '[false]');
   const data = [
     {
       id: 1,
@@ -101,12 +99,9 @@ const Index = () => {
                 </h2>
                 <Button
                   onClick={() => {
-                    if (typeof window !== undefined) {
-                      let arr = JSON.parse(
-                        localStorage?.getItem("answer") || "[]"
-                      );
-                      if (localStorage?.getItem("answer")) arr.splice(index, 1);
-                      window?.localStorage?.setItem("answer", JSON.stringify(arr));
+                    if (window) {
+                      listAnswer.splice(index,1);
+                      window ? window.localStorage.setItem("answer", JSON.stringify(listAnswer)) : null
                       reRender(!render);
                     }
                   }}
