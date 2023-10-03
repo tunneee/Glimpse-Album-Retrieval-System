@@ -12,7 +12,7 @@ type ImageProps = {
 };
 const Index = () => {
   const [render, reRender] = useState<boolean>(false);
-  var listAnswer = JSON.parse( window ? localStorage.getItem("answer") || '[false]' : '[false]');
+  var listAnswer = JSON.parse( typeof window === "undefined" ? localStorage.getItem("answer") || '[false]' : '[false]');
   const data = [
     {
       id: 1,
@@ -101,7 +101,7 @@ const Index = () => {
                   onClick={() => {
                     if (window) {
                       listAnswer.splice(index,1);
-                      window ? localStorage.setItem("answer", JSON.stringify(listAnswer)) : null
+                      typeof window === "undefined"? localStorage.setItem("answer", JSON.stringify(listAnswer)) : null
                       reRender(!render);
                     }
                   }}
