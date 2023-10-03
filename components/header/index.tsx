@@ -22,7 +22,7 @@ function Index({ url }: { url: string }) {
   const face = useRef(null);
   const setting = useRef(null);
   const [action, setAction] = useState<any>((): any => {
-    return { y: act.offsetTop, action: act.action };
+    return { y: 0, action: 1 };
   });
   useEffect(() => {
     switch (url) {
