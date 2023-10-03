@@ -9,10 +9,10 @@ const SectionInput = () => {
   const router = useRouter();
   const submitAnswer = (text : string) =>{
     if (typeof window !== undefined) {
-    let arr = JSON.parse(localStorage.getItem("answer") || '[]');
+    let arr = JSON.parse(window.localStorage.getItem("answer") || '[]');
     arr.push(text)
     console.log('arr',  arr);
-    localStorage.setItem("answer" ,JSON.stringify(arr));
+    window.localStorage.setItem("answer" ,JSON.stringify(arr));
     router.push("/result")
     }
   }
