@@ -23,31 +23,36 @@ function Index({url} : {url :string}) {
   const face = useRef(null);
   const setting = useRef(null);
   const [action, setAction] = useState<any>((): any => {
-    return { y: 0, action: 1 };
+    const act = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("url") || '0') : 0
+    return { y: act.offsetTop, action: act.action };
   });
   useEffect(()=>{
     switch(url) {
       case "/album" : 
         setAction((): any => {
         const { offsetTop }: any = album?.current;
+        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
         return { y: offsetTop, action: 1 };
         });
         break;
       case "/result" : 
         setAction((): any => {
         const { offsetTop }: any = result?.current;
+        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
         return { y: offsetTop, action: 2 };
         });
         break;
       case "/face" : 
         setAction((): any => {
         const { offsetTop }: any = face?.current;
+        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
         return { y: offsetTop, action: 3 };
         });
         break;
       case "/setting" : 
         setAction((): any => {
         const { offsetTop }: any = setting?.current;
+        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
         return { y: offsetTop, action: 4 };
         });
         break;
