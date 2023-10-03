@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -16,48 +16,42 @@ const variants: any = {
     };
   },
 };
-function Index({url} : {url :string}) {
- 
+function Index({ url }: { url: string }) {
   const album = useRef(null);
   const result = useRef(null);
   const face = useRef(null);
   const setting = useRef(null);
   const [action, setAction] = useState<any>((): any => {
-    const act = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("url") || '0') : 0
     return { y: act.offsetTop, action: act.action };
   });
-  useEffect(()=>{
-    switch(url) {
-      case "/album" : 
+  useEffect(() => {
+    switch (url) {
+      case "/album":
         setAction((): any => {
-        const { offsetTop }: any = album?.current;
-        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
-        return { y: offsetTop, action: 1 };
+          const { offsetTop }: any = album?.current;
+          return { y: offsetTop, action: 1 };
         });
         break;
-      case "/result" : 
+      case "/result":
         setAction((): any => {
-        const { offsetTop }: any = result?.current;
-        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
-        return { y: offsetTop, action: 2 };
+          const { offsetTop }: any = result?.current;
+          return { y: offsetTop, action: 2 };
         });
         break;
-      case "/face" : 
+      case "/face":
         setAction((): any => {
-        const { offsetTop }: any = face?.current;
-        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
-        return { y: offsetTop, action: 3 };
+          const { offsetTop }: any = face?.current;
+          return { y: offsetTop, action: 3 };
         });
         break;
-      case "/setting" : 
+      case "/setting":
         setAction((): any => {
-        const { offsetTop }: any = setting?.current;
-        typeof window !== "undefined" ? localStorage.setItem("url", JSON.stringify({ y: offsetTop, action: 1 })) : null
-        return { y: offsetTop, action: 4 };
+          const { offsetTop }: any = setting?.current;
+          return { y: offsetTop, action: 4 };
         });
         break;
     }
-  }, [url])
+  }, [url]);
   return (
     <>
       <nav className="xl:min-w-[180px] pl-[20px] lg:min-w-[160px]  py-[60px] h-full bg-[#202020] overflow-hidden">
@@ -75,74 +69,72 @@ function Index({url} : {url :string}) {
             ref={album}
             className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link
-              href="/album"
-              className="flex xl:gap-[10px] items-center"
-            >
-              <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
-              <motion.p
-                className={` text-[20px] font-[700] ${
-                  action?.action != 1 ? "text-[#fff]" : "text-[#202020]"
-                } transition-colors duration-100 ease-in-out delay-200 `}
-              >
-                Album
-              </motion.p>
+            <Link href="/album" className="flex xl:gap-[10px] items-center">
+              <a>
+                <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
+                <motion.p
+                  className={` text-[20px] font-[700] ${
+                    action?.action != 1 ? "text-[#fff]" : "text-[#202020]"
+                  } transition-colors duration-100 ease-in-out delay-200 `}
+                >
+                  Album
+                </motion.p>
+              </a>
             </Link>
           </li>
           <li
             ref={result}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link
-              href="/result"
-              className="flex xl:gap-[10px] items-center "
-            >
-              <Result color={action?.action != 2 ? "#fff" : "#202020"}></Result>
-              <motion.p
-                className={` text-[20px] font-[700] ${
-                  action?.action != 2 ? "text-[#fff]" : "text-[#202020]"
-                } transition-colors duration-100 ease-in-out delay-200 `}
-              >
-                Result
-              </motion.p>
+            <Link href="/result" className="flex xl:gap-[10px] items-center ">
+              <a>
+                <Result
+                  color={action?.action != 2 ? "#fff" : "#202020"}
+                ></Result>
+                <motion.p
+                  className={` text-[20px] font-[700] ${
+                    action?.action != 2 ? "text-[#fff]" : "text-[#202020]"
+                  } transition-colors duration-100 ease-in-out delay-200 `}
+                >
+                  Result
+                </motion.p>
+              </a>
             </Link>
           </li>
           <li
             ref={face}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link
-              href="/face"
-              className="flex xl:gap-[10px] items-center"
-            >
-              <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
-              <motion.p
-                className={` text-[20px] font-[700] ${
-                  action?.action != 3 ? "text-[#fff]" : "text-[#202020]"
-                } transition-colors duration-100 ease-in-out delay-200 `}
-              >
-                Face
-              </motion.p>
+            <Link href="/face" className="flex xl:gap-[10px] items-center">
+              <a>
+                <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
+                <motion.p
+                  className={` text-[20px] font-[700] ${
+                    action?.action != 3 ? "text-[#fff]" : "text-[#202020]"
+                  } transition-colors duration-100 ease-in-out delay-200 `}
+                >
+                  Face
+                </motion.p>
+              </a>
             </Link>
           </li>
           <li
             ref={setting}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link
-              href="/setting"
-              className="flex xl:gap-[10px] items-center"
-            >
-              <Setting
-                color={action?.action != 4 ? "#fff" : "#202020"}
-              ></Setting>
-              <motion.p
-                className={` text-[20px] font-[700] ${
-                  action?.action != 4 ? "text-[#fff]" : "text-[#202020]"
-                } transition-colors duration-100 ease-in-out delay-200 `}
-              >
-                Setting
-              </motion.p>
+            <Link href="/setting" className="flex xl:gap-[10px] items-center">
+              <a>
+                <Setting
+                  color={action?.action != 4 ? "#fff" : "#202020"}
+                ></Setting>
+                <motion.p
+                  className={` text-[20px] font-[700] ${
+                    action?.action != 4 ? "text-[#fff]" : "text-[#202020]"
+                  } transition-colors duration-100 ease-in-out delay-200 `}
+                >
+                  Setting
+                </motion.p>
+              </a>
             </Link>
           </li>
         </ul>
