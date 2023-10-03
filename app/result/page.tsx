@@ -105,8 +105,8 @@ const Index = () => {
                       let arr = JSON.parse(
                         localStorage?.getItem("answer") || "[]"
                       );
-                      if (window?.localStorage.getItem("answer")) arr.splice(index, 1);
-                      window?.localStorage.setItem("answer", JSON.stringify(arr));
+                      if (localStorage?.getItem("answer")) arr.splice(index, 1);
+                      window?.localStorage?.setItem("answer", JSON.stringify(arr));
                       reRender(!render);
                     }
                   }}
