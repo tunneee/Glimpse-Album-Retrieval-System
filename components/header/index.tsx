@@ -5,8 +5,6 @@ import { useRef, useState } from "react";
 import { Album, Result, Face, Setting } from "../../assets/images/header/index";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
-
 const variants: any = {
   animetion: ({ y }: { y: number }) => {
     return {
@@ -18,17 +16,17 @@ const variants: any = {
     };
   },
 };
-function Index() {
-  const currentPage = usePathname();
+function Index({url} : {url :string}) {
+ 
   const album = useRef(null);
   const result = useRef(null);
   const face = useRef(null);
   const setting = useRef(null);
   const [action, setAction] = useState<any>((): any => {
-    return { y: null, action: 1 };
+    return { y: 0, action: 1 };
   });
   useEffect(()=>{
-    switch(currentPage) {
+    switch(url) {
       case "/album" : 
         setAction((): any => {
         const { offsetTop }: any = album?.current;
@@ -54,7 +52,7 @@ function Index() {
         });
         break;
     }
-  }, [currentPage])
+  }, [url])
   return (
     <>
       <nav className="xl:min-w-[180px] pl-[20px] lg:min-w-[160px]  py-[60px] h-full bg-[#202020] overflow-hidden">
