@@ -13,7 +13,7 @@ type ImageProps = {
 const Index = () => {
   const [render, reRender] = useState<boolean>(false);
   if (typeof window !== undefined) {
-  var listAnswer = JSON.parse(window.localStorage.getItem("answer") || "[false]");
+  var listAnswer = JSON.parse(window?.localStorage.getItem("answer") || "[false]");
   }
   const data = [
     {
@@ -103,10 +103,10 @@ const Index = () => {
                   onClick={() => {
                     if (typeof window !== undefined) {
                       let arr = JSON.parse(
-                        window.localStorage.getItem("answer") || "[]"
+                        window?.localStorage.getItem("answer") || "[]"
                       );
-                      if (window.localStorage.getItem("answer")) arr.splice(index, 1);
-                      window.localStorage.setItem("answer", JSON.stringify(arr));
+                      if (window?.localStorage.getItem("answer")) arr.splice(index, 1);
+                      window?.localStorage.setItem("answer", JSON.stringify(arr));
                       reRender(!render);
                     }
                   }}
