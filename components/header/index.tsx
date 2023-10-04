@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Album, Result, Face, Setting } from "../../assets/images/header/index";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 const variants: any = {
   animetion: ({ y }: { y: number }) => {
     return {
@@ -17,6 +18,7 @@ const variants: any = {
   },
 };
 function Index({ url }: { url: string }) {
+  const router = useRouter();
   const album = useRef(null);
   const result = useRef(null);
   const face = useRef(null);
@@ -69,7 +71,10 @@ function Index({ url }: { url: string }) {
             ref={album}
             className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="album" className="flex xl:gap-[10px] items-center">
+            <button 
+              onClick={() =>{
+                router.push("/album");
+              }} className="flex xl:gap-[10px] items-center">
               
                 <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
                 <motion.p
@@ -80,13 +85,16 @@ function Index({ url }: { url: string }) {
                   Album
                 </motion.p>
       
-            </Link>
+            </button>
           </li>
           <li
             ref={result}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="result" className="flex xl:gap-[10px] items-center ">
+            <button 
+              onClick={() =>{
+                router.push("/result");
+              }}  className="flex xl:gap-[10px] items-center ">
               
                 <Result
                   color={action?.action != 2 ? "#fff" : "#202020"}
@@ -99,13 +107,16 @@ function Index({ url }: { url: string }) {
                   Result
                 </motion.p>
       
-            </Link>
+            </button>
           </li>
           <li
             ref={face}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="face" className="flex xl:gap-[10px] items-center">
+            <button 
+              onClick={() =>{
+                router.push("/face");
+              }} className="flex xl:gap-[10px] items-center">
               
                 <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
                 <motion.p
@@ -116,13 +127,16 @@ function Index({ url }: { url: string }) {
                   Face
                 </motion.p>
       
-            </Link>
+            </button>
           </li>
           <li
             ref={setting}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="setting" className="flex xl:gap-[10px] items-center">
+            <button 
+              onClick={() =>{
+                router.push("/setting");
+              }} className="flex xl:gap-[10px] items-center">
               
                 <Setting
                   color={action?.action != 4 ? "#fff" : "#202020"}
@@ -135,7 +149,7 @@ function Index({ url }: { url: string }) {
                   Setting
                 </motion.p>
       
-            </Link>
+            </button>
           </li>
         </ul>
       </nav>
