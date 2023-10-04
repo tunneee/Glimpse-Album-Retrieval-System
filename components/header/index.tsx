@@ -69,8 +69,8 @@ function Index({ url }: { url: string }) {
             ref={album}
             className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/album" className="flex xl:gap-[10px] items-center">
-              <a>
+            <Link href="/#album" className="flex xl:gap-[10px] items-center">
+              
                 <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
                 <motion.p
                   className={` text-[20px] font-[700] ${
@@ -79,15 +79,15 @@ function Index({ url }: { url: string }) {
                 >
                   Album
                 </motion.p>
-              </a>
+      
             </Link>
           </li>
           <li
             ref={result}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/result" className="flex xl:gap-[10px] items-center ">
-              <a>
+            <Link href="/#result" className="flex xl:gap-[10px] items-center ">
+              
                 <Result
                   color={action?.action != 2 ? "#fff" : "#202020"}
                 ></Result>
@@ -98,15 +98,15 @@ function Index({ url }: { url: string }) {
                 >
                   Result
                 </motion.p>
-              </a>
+      
             </Link>
           </li>
           <li
             ref={face}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/face" className="flex xl:gap-[10px] items-center">
-              <a>
+            <Link href="/#face" className="flex xl:gap-[10px] items-center">
+              
                 <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
                 <motion.p
                   className={` text-[20px] font-[700] ${
@@ -115,15 +115,15 @@ function Index({ url }: { url: string }) {
                 >
                   Face
                 </motion.p>
-              </a>
+      
             </Link>
           </li>
           <li
             ref={setting}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/setting" className="flex xl:gap-[10px] items-center">
-              <a>
+            <Link href="/#setting" className="flex xl:gap-[10px] items-center">
+              
                 <Setting
                   color={action?.action != 4 ? "#fff" : "#202020"}
                 ></Setting>
@@ -134,7 +134,7 @@ function Index({ url }: { url: string }) {
                 >
                   Setting
                 </motion.p>
-              </a>
+      
             </Link>
           </li>
         </ul>
