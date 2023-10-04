@@ -1,9 +1,13 @@
+"use client"
 import React from 'react'
+import { useRouter } from 'next/navigation';
 
-const page = () => {
+const Page = () => {
+  const router = useRouter();
+  router.push("/album")
   return (
-    <div>page</div>
+    <div>Page</div>
   )
 }
 
-export default page
+export default Page

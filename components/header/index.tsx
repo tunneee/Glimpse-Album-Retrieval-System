@@ -56,29 +56,29 @@ function Index({ url }: { url: string }) {
   }, [url]);
   return (
     <>
-      <nav className="xl:min-w-[180px] pl-[20px] lg:min-w-[160px]  py-[60px] h-full bg-[#202020] overflow-hidden">
-        <ul className="relative flex flex-col justify-between text-[#fff] h-full xl:w-[160px] lg:w-[140px] max-h-[750px]">
+      <nav className="xl:min-w-[180px] pl-[20px] lg:min-w-[160px] md:min-w-[140px] md:block sm:hidden  py-[60px] h-full bg-[#202020] overflow-hidden">
+        <ul className="relative flex flex-col justify-between text-[#fff] h-full xl:w-[160px] lg:w-[140px] md:w-[120px] max-h-[750px]">
           <motion.div
             animate={"animetion"}
             custom={action}
             variants={variants}
-            className={`absolute w-full rounded-[40px_0px_0_40px] bg-[#fff] lg:h-[75px] z-[1]`}
+            className={`absolute w-full rounded-[40px_0px_0_40px] bg-[#fff] lg:h-[75px] md:h-[50px] z-[1]`}
           >
-            <div className="absolute right-0 xl:w-[30px] lg:w-[30px] aspect-[1/1] bg-[#202020] rounded-full bottom-[100%] shadow-[16px_16px_0_0px_#fff]"></div>
-            <div className="absolute right-0 xl:w-[30px] lg:w-[30px] aspect-[1/1]  bg-[#202020] rounded-full top-[100%]  shadow-[16px_-16px_0_0px_#fff]"></div>
+            <div className="absolute right-0  lg:w-[30px] md:w-[20px] aspect-[1/1] bg-[#202020] rounded-full bottom-[100%] lg:shadow-[16px_16px_0_0px_#fff] md:shadow-[10px_10px_0_0_#fff]"></div>
+            <div className="absolute right-0  lg:w-[30px] md:w-[20px] aspect-[1/1]  bg-[#202020] rounded-full top-[100%]  lg:shadow-[16px_-16px_0_0px_#fff] md:shadow-[10px_-10px_0_0_#fff]"></div>
           </motion.div>
           <li
             ref={album}
-            className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
+            className="lg:pl-[20px] md:pl-[15px] lg:h-[75px] md:h-[50px] flex items-center z-[2]"
           >
             <button 
               onClick={() =>{
                 router.push("/album");
-              }} className="flex xl:gap-[10px] items-center">
+              }} className="flex md:gap-[10px] items-center">
               
                 <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
                 <motion.p
-                  className={` text-[20px] font-[700] ${
+                  className={` lg:text-[20px] md:text-[16px] font-[700] ${
                     action?.action != 1 ? "text-[#fff]" : "text-[#202020]"
                   } transition-colors duration-100 ease-in-out delay-200 `}
                 >
@@ -89,18 +89,18 @@ function Index({ url }: { url: string }) {
           </li>
           <li
             ref={result}
-            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
+            className=" lg:pl-[20px] md:pl-[15px] lg:h-[75px] md:h-[50px] flex items-center z-[2]"
           >
             <button 
               onClick={() =>{
                 router.push("/result");
-              }}  className="flex xl:gap-[10px] items-center ">
+              }}  className="flex md:gap-[10px] items-center ">
               
                 <Result
                   color={action?.action != 2 ? "#fff" : "#202020"}
                 ></Result>
                 <motion.p
-                  className={` text-[20px] font-[700] ${
+                  className={`lg:text-[20px] md:text-[16px] font-[700] ${
                     action?.action != 2 ? "text-[#fff]" : "text-[#202020]"
                   } transition-colors duration-100 ease-in-out delay-200 `}
                 >
@@ -111,16 +111,16 @@ function Index({ url }: { url: string }) {
           </li>
           <li
             ref={face}
-            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
+            className=" lg:pl-[20px] md:pl-[15px] lg:h-[75px] md:h-[50px] flex items-center z-[2]"
           >
             <button 
               onClick={() =>{
                 router.push("/face");
-              }} className="flex xl:gap-[10px] items-center">
+              }} className="flex md:gap-[10px] items-center">
               
                 <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
                 <motion.p
-                  className={` text-[20px] font-[700] ${
+                  className={` lg:text-[20px] md:text-[16px] font-[700] ${
                     action?.action != 3 ? "text-[#fff]" : "text-[#202020]"
                   } transition-colors duration-100 ease-in-out delay-200 `}
                 >
@@ -131,18 +131,18 @@ function Index({ url }: { url: string }) {
           </li>
           <li
             ref={setting}
-            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
+            className=" lg:pl-[20px] md:pl-[15px] lg:h-[75px] md:h-[50px] flex items-center z-[2]"
           >
             <button 
               onClick={() =>{
                 router.push("/setting");
-              }} className="flex xl:gap-[10px] items-center">
+              }} className="flex md:gap-[10px] items-center">
               
                 <Setting
                   color={action?.action != 4 ? "#fff" : "#202020"}
                 ></Setting>
                 <motion.p
-                  className={` text-[20px] font-[700] ${
+                  className={` lg:text-[20px] md:text-[16px] font-[700] ${
                     action?.action != 4 ? "text-[#fff]" : "text-[#202020]"
                   } transition-colors duration-100 ease-in-out delay-200 `}
                 >

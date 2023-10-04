@@ -90,7 +90,7 @@ const Album = () => {
       type: "video",
       thumnail : "https://wallpapercave.com/wp/wp5148950.jpg"
     },
-  ];
+  ].sort((a : any, b : any) =>(b.date.split('/').reverse().join('/').localeCompare(a.date.split('/').reverse().join('/'))));
 
   var listCard : Array<CardProps> = [];
   return (
@@ -102,11 +102,11 @@ const Album = () => {
           const list = listCard;
           listCard = [];
           return (
-            <div key={element.id} className="flex flex-col xl:gap-[10px]">
-              <h2 className="font-[600] text-[22px]">
+            <div key={element.id} className="flex flex-col lg:gap-[10px]">
+              <h2 className="font-[600] lg:text-[22px] md:text-[18px]">
                 Ngày {date[0]}, tháng {date[1]}, năm {date[2]}
               </h2>
-              <ul id="list" className="flex justify-start lg:gap-[10px]">
+              <ul id="list" className="flex justify-start md:gap-[10px] sm:gap-[8px] flex-wrap ">
                 {list.map((card : CardProps)=>(
                   <Card thumnail={card.thumnail} id={card.id} key={card.id} link={card.link} type={card.type} ></Card>
                 ))}

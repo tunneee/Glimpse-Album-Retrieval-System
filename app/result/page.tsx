@@ -92,7 +92,7 @@ const Index = () => {
           );
         else {
           return (
-            <div key={index} className="flex flex-col lg:gap-[10px] ">
+            <div key={index} className="flex flex-col md:gap-[10px] sm:gap-[8px] ">
               <div className="flex justify-between ">
                 <h2 className="capitalize font-[700] text-[24px] text-[#202020]">
                   {element}
