@@ -1,10 +1,14 @@
 "use client"
 import React from 'react'
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname} from 'next/navigation';
 
 const Page = () => {
+  const currentPage = usePathname();
   const router = useRouter();
-  router.push("/album")
+  if(currentPage == "/") {
+    router.push("/album")
+    router.refresh();
+  }
   return (
     <div>Page</div>
   )
