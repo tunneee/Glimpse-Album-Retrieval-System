@@ -69,7 +69,7 @@ function Index({ url }: { url: string }) {
             ref={album}
             className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/#album" className="flex xl:gap-[10px] items-center">
+            <Link href="album" className="flex xl:gap-[10px] items-center">
               
                 <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
                 <motion.p
@@ -86,7 +86,7 @@ function Index({ url }: { url: string }) {
             ref={result}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/#result" className="flex xl:gap-[10px] items-center ">
+            <Link href="result" className="flex xl:gap-[10px] items-center ">
               
                 <Result
                   color={action?.action != 2 ? "#fff" : "#202020"}
@@ -105,7 +105,7 @@ function Index({ url }: { url: string }) {
             ref={face}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/#face" className="flex xl:gap-[10px] items-center">
+            <Link href="face" className="flex xl:gap-[10px] items-center">
               
                 <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
                 <motion.p
@@ -122,7 +122,7 @@ function Index({ url }: { url: string }) {
             ref={setting}
             className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
           >
-            <Link href="/#setting" className="flex xl:gap-[10px] items-center">
+            <Link href="setting" className="flex xl:gap-[10px] items-center">
               
                 <Setting
                   color={action?.action != 4 ? "#fff" : "#202020"}

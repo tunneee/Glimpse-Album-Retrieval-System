@@ -6,62 +6,13 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 import Header from "../components/header";
 import Tool from "../components/tool";
-import { useRef, useState, useEffect } from "react";
-import { Album, Result, Face, Setting } from "@/assets/images/header/index";
-import { motion } from "framer-motion";
-import Link from "next/link";
-const variants: any = {
-  animetion: ({ y }: { y: number }) => {
-    return {
-      y: y,
-      transition: {
-        type: "spring",
-        bounce: 0.1,
-      },
-    };
-  },
-};
+import {useState } from "react"
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const currentPage = usePathname();
-  const album = useRef(null);
-  const result = useRef(null);
-  const face = useRef(null);
-  const setting = useRef(null);
-  const [action, setAction] = useState<any>((): any => {
-    return { y: 0, action: 1 };
-  });
-  useEffect(() => {
-    switch (currentPage) {
-      case "/album":
-        setAction((): any => {
-          const { offsetTop }: any = album?.current;
-          return { y: offsetTop, action: 1 };
-        });
-        break;
-      case "/result":
-        setAction((): any => {
-          const { offsetTop }: any = result?.current;
-          return { y: offsetTop, action: 2 };
-        });
-        break;
-      case "/face":
-        setAction((): any => {
-          const { offsetTop }: any = face?.current;
-          return { y: offsetTop, action: 3 };
-        });
-        break;
-      case "/setting":
-        setAction((): any => {
-          const { offsetTop }: any = setting?.current;
-          return { y: offsetTop, action: 4 };
-        });
-        break;
-    }
-  }, [currentPage]);
   return (
       <html lang="en">
         <body className={`${inter.className} select-none  bg-[#202020]`}>
@@ -69,91 +20,7 @@ export default function RootLayout({
             <div className="max-w-[1440px] mx-[auto] h-full"></div>
           </header>
           <main className="relative justify-start max-h-[1440px] flex max-w-[1440px] lg:h-[calc(100vh-80px)] mx-[auto]">
-          <nav className="xl:min-w-[180px] pl-[20px] lg:min-w-[160px]  py-[60px] h-full bg-[#202020] overflow-hidden">
-        <ul className="relative flex flex-col justify-between text-[#fff] h-full xl:w-[160px] lg:w-[140px] max-h-[750px]">
-          <motion.div
-            animate={"animetion"}
-            custom={action}
-            variants={variants}
-            className={`absolute w-full rounded-[40px_0px_0_40px] bg-[#fff] lg:h-[75px] z-[1]`}
-          >
-            <div className="absolute right-0 xl:w-[30px] lg:w-[30px] aspect-[1/1] bg-[#202020] rounded-full bottom-[100%] shadow-[16px_16px_0_0px_#fff]"></div>
-            <div className="absolute right-0 xl:w-[30px] lg:w-[30px] aspect-[1/1]  bg-[#202020] rounded-full top-[100%]  shadow-[16px_-16px_0_0px_#fff]"></div>
-          </motion.div>
-          <li
-            ref={album}
-            className="lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
-          >
-            <Link href="/album" className="flex xl:gap-[10px] items-center">
-              
-                <Album color={action?.action != 1 ? "#fff" : "#202020"}></Album>
-                <motion.p
-                  className={` text-[20px] font-[700] ${
-                    action?.action != 1 ? "text-[#fff]" : "text-[#202020]"
-                  } transition-colors duration-100 ease-in-out delay-200 `}
-                >
-                  Album
-                </motion.p>
-      
-            </Link>
-          </li>
-          <li
-            ref={result}
-            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
-          >
-            <Link href="/result" className="flex xl:gap-[10px] items-center ">
-              
-                <Result
-                  color={action?.action != 2 ? "#fff" : "#202020"}
-                ></Result>
-                <motion.p
-                  className={` text-[20px] font-[700] ${
-                    action?.action != 2 ? "text-[#fff]" : "text-[#202020]"
-                  } transition-colors duration-100 ease-in-out delay-200 `}
-                >
-                  Result
-                </motion.p>
-      
-            </Link>
-          </li>
-          <li
-            ref={face}
-            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
-          >
-            <Link href="/face" className="flex xl:gap-[10px] items-center">
-              
-                <Face color={action?.action != 3 ? "#fff" : "#202020"}></Face>
-                <motion.p
-                  className={` text-[20px] font-[700] ${
-                    action?.action != 3 ? "text-[#fff]" : "text-[#202020]"
-                  } transition-colors duration-100 ease-in-out delay-200 `}
-                >
-                  Face
-                </motion.p>
-      
-            </Link>
-          </li>
-          <li
-            ref={setting}
-            className=" lg:pl-[20px] lg:h-[75px] flex items-center z-[2]"
-          >
-            <Link href="/setting" className="flex xl:gap-[10px] items-center">
-              
-                <Setting
-                  color={action?.action != 4 ? "#fff" : "#202020"}
-                ></Setting>
-                <motion.p
-                  className={` text-[20px] font-[700] ${
-                    action?.action != 4 ? "text-[#fff]" : "text-[#202020]"
-                  } transition-colors duration-100 ease-in-out delay-200 `}
-                >
-                  Setting
-                </motion.p>
-      
-            </Link>
-          </li>
-        </ul>
-      </nav>
+            <Header url={currentPage}></Header>
             <section className="overflow-y-scroll w-full h-[calc(100%-10px)]   flex flex-col bg-[#fff] rounded-[20px_0_0_20px] xl:pt-[40px] xl:pb-[120px] xl:pl-[40px] lg:p-[20px] lg:pb-[100px] lg:gap-[40px] sm:gap-[20px]">
               {children}
             </section>
