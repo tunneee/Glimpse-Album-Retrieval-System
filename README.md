@@ -1,1 +1,1 @@
-# Glimpse-Album-Retrieval-System
+# Glimpse - Album Retrieval System
