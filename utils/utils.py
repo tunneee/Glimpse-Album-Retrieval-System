@@ -73,7 +73,10 @@ client = QdrantClient(
 )
 
 cred = credentials.Certificate("./config/firebase.json")
-firebase_admin.initialize_app(cred, {'storageBucket': 'glimpse-compai.appspot.com'})
+try:
+    firebase_admin.initialize_app(cred, {'storageBucket': 'glimpse-compai.appspot.com'})
+except:
+    print("Firebase already initialized")
 
 print(f"Time to initialize firebase: {time.time() - init_time} seconds")
 inti_time = time.time()
@@ -96,6 +99,10 @@ def create_collection(collection_name=collection_name, size=256):
         )
         print(f"Collection {collection_name} created")
 
+def delete_collection(collection_name=collection_name):
+    # Delete collection
+    client.delete_collection(collection_name=collection_name)
+    print(f"Collection {collection_name} deleted")
 
 def upload_file_to_firebase(local_path, filename, make_public=MAKE_FIREBASE_PUBLIC):
     # Reference to your Firebase Storage bucket
@@ -189,8 +196,19 @@ def search_with_query(query):
     cap_emb = model.get_caption_emb(query, device)[0]
     res = client.search(
         collection_name=collection_name,
+        query_filter=models.Filter(
+            must_not=[
+                models.FieldCondition(
+                    key="filetype",
+                    match=models.MatchValue(
+                        value="video",
+                    ),
+                )
+            ]
+        ),
         query_vector=cap_emb,
-        limit=3
+        limit=MAX_SEARCH_RESULTS    ,
+        score_threshold=SCORE_THRESHOLD,
     )
     return res
     
