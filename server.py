@@ -1,11 +1,11 @@
 from utils.utils import *
 
-from flask import Flask
+from flask import Flask, render_template
 
 import json
 from flask_cors import CORS, cross_origin
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='./templates')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -36,7 +36,7 @@ def scroll(offset=None):
                         ),
                     ]
                 ),
-                limit=10,
+                limit=1000,
                 with_payload=True,
                 with_vectors=False,
             )
@@ -45,7 +45,12 @@ def scroll(offset=None):
     
     return json.dumps({'points': points, "next_page_offset": results[1]})
 
-
+@app.route('/map')
+@app.route('/map/<uuid>')
+def return_single_point_map(uuid=None):
+    if uuid == None:
+        return "Please provide uuid"
+    return render_template('map_render.html')
     
 if __name__ == "__main__":
     app.run(debug=True)
