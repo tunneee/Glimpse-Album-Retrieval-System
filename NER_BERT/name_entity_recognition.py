@@ -168,8 +168,8 @@ def get_data(new_tokens, new_labels, prompt):
 
 def time_encoder(time):
     cal = parsedatetime.Calendar()
-    time_struct, parse_status = cal.parse("tomorrow")
-    ans = datetime(*time_struct[:6])
+    time_struct, parse_status = cal.parse(time)
+    ans = datetime(*time_struct[0:3]).timestamp()
     return ans
 
 def infor_recognition(model_fine_tuned, tokenizer_bert, prompt):
@@ -195,5 +195,9 @@ def infor_recognition(model_fine_tuned, tokenizer_bert, prompt):
     df = get_data(new_tokens, new_labels, prompt)
     
     df["Extracted Time"][0] = [time_encoder(i) for i in df["Extracted Time"][0]]
+    
+    # from day, month a -> b, list of day (a1,a2,a3...), list of time (b1,b2,b3...),...
+    
+    
 
-    return df["Free flow of Text"][0], df["Extracted Name"][0], df["Extracted Location"][0], df["Extracted Organization"][0], df['Extracted Time'][0]
+    return df["Extracted Name"][0], df["Extracted Location"][0], df['Extracted Time'][0]
