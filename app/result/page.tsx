@@ -4,101 +4,67 @@ import Card from "@/components/home/card";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import SectionInput from "@/components/SectionInput";
+import axios from "axios";
 type ImageProps = {
   id: string;
-  url: string;
-  date: string;
-  type: string;
-  thumnail?: string | undefined;
+  payload: {
+    url: string;
+    timestamp: number;
+    filetype: string;
+    video_url?: string | undefined;
+    video_id?: string | undefined;
+    times : number
+    fps : number
+    frame_idx : number
+  };
 };
 const Index = () => {
   const [render, reRender] = useState<boolean>(false);
-  
-  const [listAnswer, setListAnswer] = useState(()=>{
+  const [data, setData] = useState<any>([]);
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const [listAnswer, setListAnswer] = useState(() => {
     const result = JSON.parse(
       typeof window !== "undefined"
         ? localStorage.getItem("answer") || "[false]"
         : "[false]"
     );
     return result;
-  })
-  const data = [
-    {
-      id: "1",
-      url: "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-      date: "20/09/2004",
-      thumnail : "https://wallpapercave.com/wp/wp5148950.jpg",
-      type: "video",
-    },
-    {
-      id: "2",
-      url: "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-      date: "20/09/2004",
-      type: "video",
-    },
-    {
-      id: "3",
-      url: "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-      date: "20/09/2004",
-      type: "video",
-    },
-    {
-      id: "4",
-      url: "https://wallpapercave.com/wp/wp4854990.jpg",
-      date: "30/09/2004",
-      type: "video",
-    },
-    {
-      id: "5",
-      url: "https://wallpapercave.com/wp/wp4854990.jpg",
-      date: "30/09/2004",
-      type: "image",
-    },
-    {
-      id: "6",
-      url: "https://wallpapercave.com/wp/wp4854990.jpg",
-      date: "30/09/2004",
-      type: "image",
-    },
-    {
-      id: "7",
-      url: "https://wallpapercave.com/wp/wp4854990.jpg",
-      date: "30/09/2004",
-      type: "image",
-    },
-    {
-      id: "8",
-      url: "https://wallpapercave.com/wp/wp9102200.jpg",
-      date: "26/09/2023",
-      type: "image",
-    },
-    {
-      id: "9",
-      url: "https://wallpapercave.com/wp/wp9102200.jpg",
-      date: "26/09/2023",
-      type: "image",
-    },
-    {
-      id: "10",
-      url: "https://wallpapercave.com/wp/wp9102200.jpg",
-      date: "26/09/2023",
-      type: "image",
-    },
-    {
-      id: "11",
-      url: "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-      date: "26/09/2023",
-      type: "video",
-    },
-  ];
+  });
+  const getNewAnswer = async (result : Array<string>) =>{
+    try{
+      await axios
+      .get(`https://glimpse.serveo.net/search/${result[0]}`)
+      .then((res) => {
+        setData(res.data.points);
+        // typeof window !== "undefined"
+        // ?
+        setLoading(true)
+        localStorage.setItem(result[0], JSON.stringify(res.data.points));
+        // : null;
+      });
+    }
+    catch(err) {
+    }
+  }
+  useEffect(() => {
+    const result = JSON.parse(
+      typeof window !== "undefined"
+        ? localStorage.getItem("answer") || "[]"
+        : "[]"
+    );
+    setListAnswer(result);
+    getNewAnswer(result)
+    reRender(!render);
+  }, [localStorage.getItem("answer")]);
   return (
     <>
       {listAnswer?.map((element: string, index: number) => {
+        const arr = JSON.parse(localStorage.getItem(element) || "[]");
         if (!element) {
           // typeof window !== "undefined"
-          //   ? 
-          localStorage.setItem("answer", '')
-            // : null;
+          //   ?
+          localStorage.setItem("answer", "");
+          // : null;
           return (
             <div
               key={index}
@@ -120,35 +86,41 @@ const Index = () => {
                 <Button
                   onClick={() => {
                     // if (window) {
-                      listAnswer.splice(index, 1);
-                      // typeof window !== "undefined"
-                        // ? 
-                        localStorage.setItem(
-                            "answer",
-                            JSON.stringify(listAnswer)
-                          )
-                        // : null;
-                      reRender(!render);
+                    listAnswer.splice(index, 1);
+                    // typeof window !== "undefined"
+                    // ?
+                    localStorage.removeItem(element);
+                    localStorage.setItem("answer", JSON.stringify(listAnswer));
+                    // : null;
+                    reRender(!render);
                     // }
                   }}
                   variant="contained"
-                  sx={{ marginRight: "5px", backgroundColor: "#202020" }}
+                  className="mr-[5px] bg-[#0098FF]"
                 >
                   Xóa
                 </Button>
               </div>
-              <ul className="flex md:gap-[10px] sm:gap-[5px] flex-wrap">
-                {data.map((image: ImageProps) => {
+              <ul className="flex relative w-full min-h-[50px] md:gap-[10px] sm:gap-[5px] flex-wrap">
+                {arr == null || arr.length != 0 ? arr.map((image: ImageProps) => {
                   return (
                     <Card
+                      isLoading={isLoading}
+                      answer={element}
                       key={image.id}
                       id={image.id}
-                      url={image.url}
-                      filetype={image.type}
-                      thumnail={image.thumnail || ""}
+                      url={image.payload.url}
+                      filetype={image.payload.filetype}
+                      times={image.payload.frame_idx / image.payload.fps}
+                      video_id={image.payload.video_id}
+                      video_url={image.payload.video_url}
+                      timestamp={image.payload.timestamp}
                     ></Card>
                   );
-                })}
+                }) : 
+                (<div className="w-full flex justify-center py-[20px]">  
+                    <p>So sorry, may be your input is wrong or we didn`t have image for this.</p>
+                </div>)}
               </ul>
             </div>
           );

@@ -111,7 +111,6 @@ const index = () => {
               >
                 {listCard.map((card: any) => (
                   <Card
-                    thumnail={card?.thumnail || ""}
                     id={card.id}
                     key={card.id}
                     url={card.url}

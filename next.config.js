@@ -2,7 +2,7 @@
 module.exports = {
     reactStrictMode: true,
     images: {
-      domains: ['wallpapercave.com'],
+      domains: ['storage.googleapis.com'],
     },
   }
   

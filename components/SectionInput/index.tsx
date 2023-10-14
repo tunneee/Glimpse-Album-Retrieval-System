@@ -9,14 +9,17 @@ const SectionInput = () => {
   const submitAnswer = (text: string) => {
     if (typeof window !== undefined) {
       let arr = JSON.parse(localStorage.getItem("answer") || "[]");
-      arr.push(text);
+      arr = [text, ...arr]
+      console.log('arr', arr)
       localStorage.setItem("answer", JSON.stringify(arr));
+      content!.current!.innerText = "" ;
+      setAutoFocus(false);
       router.push("/result");
       router.refresh()
     }
   };
   const body = document.querySelector("body");
-  const content = useRef(null);
+  const content = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<string>("");
   const [autoFocus, setAutoFocus] = useState<boolean>(false);
   

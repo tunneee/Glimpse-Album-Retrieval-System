@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Album, Result, Face, Setting } from "../../assets/images/header/index";
-import { motion } from "framer-motion";
+import  {motion}  from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const variants: any = {
