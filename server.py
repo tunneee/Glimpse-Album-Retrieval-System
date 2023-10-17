@@ -1,4 +1,5 @@
 from utils.utils import *
+from utils.geo_utils.map_gen import *
 
 from flask import Flask, render_template
 
@@ -45,12 +46,14 @@ def scroll(offset=None):
     
     return json.dumps({'points': points, "next_page_offset": results[1]})
 
-@app.route('/map')
+# @app.route('/map')
+
 @app.route('/map/<uuid>')
-def return_single_point_map(uuid=None):
-    if uuid == None:
-        return "Please provide uuid"
-    return render_template('map_render.html')
+def return_single_point_map(uuid):
+    res = show_single_map(uuid, './templates/single_map.html')
+    if res == -1:
+        return "No location data found for this image"
+    return render_template('single_map.html')
     
 if __name__ == "__main__":
     app.run(debug=True)

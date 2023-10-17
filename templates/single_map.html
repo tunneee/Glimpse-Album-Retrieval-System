@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d1fd7ddb3afac74ef1eed533021d8d73 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_d1fd7ddb3afac74ef1eed533021d8d73" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_d1fd7ddb3afac74ef1eed533021d8d73 = L.map(
+                "map_d1fd7ddb3afac74ef1eed533021d8d73",
+                {
+                    center: [10.9475, 108.1821],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 15,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_9fb8e2bb9c0c933ce0d444f5b7d28802 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_d1fd7ddb3afac74ef1eed533021d8d73);
+        
+    
+            var marker_5a56fe165c2eebab2738e044a8f5d881 = L.marker(
+                [10.9475, 108.1821],
+                {}
+            ).addTo(map_d1fd7ddb3afac74ef1eed533021d8d73);
+        
+    
+        var popup_e128078ea74a079950c071e982d7e51b = L.popup({"maxWidth": 300});
+
+        
+            
+                var html_f89988a45d8d69b60f5732a2c80f60cd = $(`<div id="html_f89988a45d8d69b60f5732a2c80f60cd" style="width: 100.0%; height: 100.0%;"><img src="https://storage.googleapis.com/glimpse-compai.appspot.com/keyframes/182_1009.jpg" width="100"></div>`)[0];
+                popup_e128078ea74a079950c071e982d7e51b.setContent(html_f89988a45d8d69b60f5732a2c80f60cd);
+            
+        
+
+        marker_5a56fe165c2eebab2738e044a8f5d881.bindPopup(popup_e128078ea74a079950c071e982d7e51b)
+        ;
+
+        
+    
+    
+            marker_5a56fe165c2eebab2738e044a8f5d881.bindTooltip(
+                `<div>
+                     Lâu đài Rượu Vang, Võ Nguyên Giáp, Phường Phú Hài, Xã Thiện Nghiệp, Thành phố Phan Thiết, Tỉnh Bình Thuận, Việt Nam
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>
