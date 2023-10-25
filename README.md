@@ -43,7 +43,7 @@ This will allow external access to your backend server at http://glimpse.serveo.
 - Le Duc Anh Phuong
 - Pham Minh Tien
 - Tran Quang Duong
-- Pham Quang HUy
+- Pham Quang Huy
 
 # 
 
