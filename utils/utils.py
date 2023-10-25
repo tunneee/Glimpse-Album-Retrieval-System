@@ -364,3 +364,30 @@ def upload_new_videos_to_db(path, file):
             )
         ]        
     )
+
+def return_thumbnail_url(url, filetype, url_endpoints, img_size):
+    '''
+    url: firebase url
+    filetype: [image, keyframe]
+    '''
+    assert filetype in ['image', 'keyframe', 'video']
+    width, height = THUMBNAIL_SIZE
+    filename = url.split('/')[-1]
+    thumbnail_url = ''
+    # if filetype == 'image':
+    #     thumbnail_url += url_endpoints['image'] + '/' + filename + f"?tr=w-{width},h-{height}"
+    # if filetype == 'keyframe':
+    #     thumbnail_url += url_endpoints['keyframe'] + '/' + filename + f"?tr=w-{width},h-{height}"
+    # if filetype == 'video':
+    #     thumbnail_url += url_endpoints['video'] + '/' + filename
+    
+        
+    if filetype == 'image':
+        thumbnail_url += url_endpoints['image'] + '/' + filename 
+    if filetype == 'keyframe':
+        thumbnail_url += url_endpoints['keyframe'] + '/' + filename 
+    if filetype == 'video':
+        thumbnail_url += url_endpoints['video'] + '/' + filename
+    return thumbnail_url
+    
+    

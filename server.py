@@ -19,7 +19,21 @@ def search(query):
     points = []
     results = search_with_query(query)
     for point in results:
-        points.append(point.dict())
+        point = point.dict()
+        point['payload']['url'] = return_thumbnail_url(
+                                    url=point['payload']['url'],
+                                    filetype=point['payload']['filetype'],
+                                    url_endpoints=ENDPOINT,
+                                    img_size=IMAGE_SIZE
+                                )
+        # if point['payload']['filetype'] == 'keyframe':
+        #     point['payload']['video_url'] = return_thumbnail_url(
+        #                             url=point['payload']['video_url'],
+        #                             filetype='video',
+        #                             url_endpoints=ENDPOINT,
+        #                             img_size=IMAGE_SIZE
+        #                         )
+        points.append(point)
     return json.dumps({'points': points})
 
 @app.route("/scroll")
@@ -42,10 +56,25 @@ def scroll(offset=None):
                 with_vectors=False,
             )
     for point in results[0]:
-        points.append(point.dict())
-    
+        point = point.model_dump()
+        point['payload']['url'] = return_thumbnail_url(
+                                    url=point['payload']['url'],
+                                    filetype=point['payload']['filetype'],
+                                    url_endpoints=ENDPOINT,
+                                    img_size=IMAGE_SIZE
+                                )
+        if point['payload']['filetype'] == 'video':
+            keyframes_url = point['payload']['keyframes_url']
+            for idx, url in enumerate(keyframes_url):
+                keyframes_url[idx] = return_thumbnail_url(
+                                    url=url,
+                                    filetype='keyframe',
+                                    url_endpoints=ENDPOINT,
+                                    img_size=IMAGE_SIZE
+                                )
+            point['payload']['keyframes_url'] = keyframes_url
+        points.append(point)    
     return json.dumps({'points': points, "next_page_offset": results[1]})
-
 # @app.route('/map')
 
 @app.route('/map/<uuid>')
