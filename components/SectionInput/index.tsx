@@ -72,9 +72,16 @@ const SectionInput = () => {
               spellCheck={false}
               className={`${
                 autoFocus || text ? "hidden" : ""
-              } h-full z-[1] md:text-[16px] flex opacity-90 items-center sm:text-[10px] absolute select-none top-0 left-0`}
+              } h-full z-[1] md:text-[16px] flex items-center sm:text-[10px] absolute select-none top-0 left-0`}
             >
-              Send the require...
+              Click the buttons or press{"  "}
+              <span
+                spellCheck={false}
+                className={`select-none mx-[2px] p-[2px] bg-[#ffffff35] rounded-[2px]`}
+              >
+                Enter
+              </span>{"  "}
+              to send require...
             </p>
           </div>
           <span className="text-[#ffffff81] lg:block sm:hidden">
