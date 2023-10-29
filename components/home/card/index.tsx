@@ -83,7 +83,9 @@ const Card = (props: Props) => {
     return () => clearInterval(stillPreview);
   }, [isContinue]);
   const getMap = async () => {
-    axios.get(`https://glimpse.serveo.net/map/${props.id}`);
+    await axios
+      .get(`https://glimpse.serveo.net/map/${props.id}`)
+      .then((res) => console.log("res", res));
   };
   useEffect(() => {
     if (!isSelect) return;
@@ -211,18 +213,20 @@ const Card = (props: Props) => {
                 layoutId={`${props?.answer || ""}${props?.id}`}
                 className="cursor-pointer flex lg:flex-row  sm:flex-col justify-start transition-shadow duration-200 ease-in-out lg:rounded-[10px] sm:rounded-[10px] relative aspect-[1/1] w-full overflow-hidden"
               >
-                <div className="lg:w-3/5 sm:w-full lg:h-full sm:h-3/5">
+                <div className="relative bg-[#fff] lg:w-3/5 sm:w-full lg:h-full sm:h-3/5">
                   {props?.filetype == "image" ||
                   props?.filetype == "keyframe" ? (
-                    <picture>
-                      <LazyLoadImage
-                        src={props?.url || "/"}
-                        alt="anh"
-                        width={1440}
-                        height={900}
-                        className="object-cover  w-[100%] h-[100%]"
-                      ></LazyLoadImage>
-                    </picture>
+                    <>
+                      <picture className="z-10">
+                        <LazyLoadImage
+                          src={props?.url?.replaceAll("150", "1440") || "/"}
+                          alt="anh"
+                          width={1440}
+                          height={900}
+                          className="object-cover  w-[100%] h-[100%]"
+                        ></LazyLoadImage>
+                      </picture>
+                    </>
                   ) : (
                     <div className="w-full h-full">
                       <video
@@ -247,7 +251,7 @@ const Card = (props: Props) => {
                   animate={"show"}
                   exit="exit"
                   variants={setClick}
-                  className="lg:w-2/5 overflow-hidden justify-start sm:w-full lg:h-full sm:h-2/5 bg-[#fff] relative lg:rounded-[0_10px_10px_0]"
+                  className="lg:w-2/5 flex sm:flex-row md:flex-col overflow-hidden justify-start sm:w-full lg:h-full sm:h-2/5 bg-[#fff] relative lg:rounded-[0_10px_10px_0]"
                 >
                   <button
                     onClick={() => {
@@ -258,16 +262,21 @@ const Card = (props: Props) => {
                     <CloseIcon className="hover:text-[#0098FF]"></CloseIcon>
                   </button>
                   <div className=" lg:w-full flex flex-col gap-[20px] lg:py-[40px] lg:px-[20px] sm:py-[10px] sm:px-[20px]">
-                    <span className="flex  items-baseline">
+                    <span className="flex sm:flex-col md:flex-row  items-baseline">
                       <h4 className="font-[500] text-[1.2em]">Filetype : </h4>
                       <p className="font-[300] text-[1em]">{` ${
-                        props?.filetype == "image" ? "image" : "video"
-                      } (${props?.video_url?.slice(
-                        props?.video_url.length - 4,
-                        props?.video_url.length
-                      )})`}</p>
+                        props?.filetype == "image"
+                          ? `image(${props?.video_url?.slice(
+                              props?.video_url.length - 20,
+                              props?.video_url.length - 16
+                            )})`
+                          : `video(${props?.video_url?.slice(
+                              props?.video_url.length - 4,
+                              props?.video_url.length
+                            )})`
+                      } `}</p>
                     </span>
-                    <span className="flex  items-baseline">
+                    <span className="flex sm:flex-col md:flex-row  items-baseline">
                       <h4 className="font-[500] text-[1.2em] ">Date : </h4>
                       <p className="font-[300] text-[1em]">{` ${
                         date[time.getDay()]
@@ -275,12 +284,12 @@ const Card = (props: Props) => {
                       ${moth[time.getMonth()]} ${time.getFullYear()}`}</p>
                     </span>
                     {props?.filetype != "image" ? (
-                      <span className="flex  items-baseline">
+                      <span className="flex sm:flex-col md:flex-row  items-baseline">
                         <h4 className="font-[500] text-[1.2em] ">
                           Video duration :{" "}
                         </h4>
                         <p className="font-[300] text-[1em]">
-                          {Math.floor(videoCurrent.current?.duration || 0) > 59
+                          {Math.floor(videoCurrent.current?.duration || 10) > 59
                             ? `${
                                 Math.floor(
                                   videoCurrent.current?.duration || 0
@@ -308,7 +317,10 @@ const Card = (props: Props) => {
                     ) : null}
                   </div>
                   <div className="w-full h-full">
-                    <iframe src="file:///C:/Users/Admin/Downloads/test0115c98c-c7de-47be-8fcc-0dfbb78e47fa%20(2).html"></iframe>
+                    <iframe
+                      className="w-full h-full relative"
+                      src={`https://glimpse.serveo.net/map/${props.id}`}
+                    ></iframe>
                   </div>
                 </motion.div>
               </motion.li>
@@ -319,9 +331,18 @@ const Card = (props: Props) => {
     );
   else
     return (
-      <li className=" lg:rounded-[20px] sm:rounded-[10px] flex justify-center flex-wrap items-center relative aspect-[1/1] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)] overflow-hidden">
-        <Skeleton width={200} height={200} variant="rounded" />
-        <p className={style.text}>Glimpse</p>
+      <li className="lg:rounded-[20px] sm:rounded-[10px] flex justify-center flex-wrap items-center relative aspect-[1/1] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)] overflow-hidden">
+        <Skeleton
+          width={250}
+          height={250}
+          variant="rounded"
+          className="w-full h-full"
+        />
+        <p
+          className={`${style.text} lg:text-[22px] md:text-[20px] sm:text-[16px]`}
+        >
+          Glimpse
+        </p>
       </li>
     );
 };

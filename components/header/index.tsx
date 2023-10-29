@@ -74,7 +74,7 @@ function Index({ url }: { url: string }) {
     switch (url) {
       case "/album":
         setAction((): any => {
-          const { offsetTop }: any = album?.current;
+          const { offsetTop }: any = album?.current || 0;
           return { y: offsetTop, action: 1 };
         });
         break;
@@ -83,24 +83,23 @@ function Index({ url }: { url: string }) {
           const { offsetTop }: any =
             result?.current?.offsetTop != 0
               ? result?.current
-              : resultsm?.current;
-          return { y: offsetTop, action: 2 };
+              : 67;
+          return { y: offsetTop || 67, action: 2 };
         });
         break;
       case "/face":
         setAction((): any => {
           const { offsetTop }: any =
-            face?.current?.offsetTop != 0 ? face?.current : facesm?.current;
-            console.log('offsetTop', offsetTop)
-          return { y: offsetTop, action: 3 };
+            face?.current?.offsetTop != 0 ? face?.current : 133;
+          return { y: offsetTop || 133, action: 3 };
         });
         break;
       case "/setting":
         setAction((): any => {
           const { offsetTop }: any = setting?.current?.offsetTop != 0
             ? setting?.current
-            : settingsm?.current;
-          return { y: offsetTop, action: 4 };
+            : 200;
+          return { y: offsetTop || 200, action: 4 };
         });
         break;
     }
@@ -263,7 +262,7 @@ function Index({ url }: { url: string }) {
               className={`absolute w-[4px] right-0 rounded-[200px_0px_0_200px] bg-[#0098FF] h-[30px] z-[1]`}
             ></motion.div>
             <motion.li
-              ref={albumsm}
+      
               animate={status.album ? "focus" : "not"}
               variants={button}
               className=" flex items-center z-[2]"
@@ -284,7 +283,6 @@ function Index({ url }: { url: string }) {
               </motion.button>
             </motion.li>
             <motion.li
-              ref={resultsm}
               animate={status.result ? "focus" : "not"}
               variants={button}
               className="  flex items-center z-[2]"
@@ -305,7 +303,6 @@ function Index({ url }: { url: string }) {
               </motion.button>
             </motion.li>
             <motion.li
-              ref={facesm}
               animate={status.face ? "focus" : "not"}
               variants={button}
               className=" flex items-center z-[2]"
@@ -326,7 +323,6 @@ function Index({ url }: { url: string }) {
               </motion.button>
             </motion.li>
             <motion.li
-              ref={settingsm}
               animate={status.setting ? "focus" : "not"}
               variants={button}
               className=" flex items-center z-[2]"

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Upload = ({className, color} : {className : string, color : string}) => {
+const Upload = ({ className, color }: { className: string; color: string }) => {
   return (
     <svg
       width="25"
@@ -20,7 +20,7 @@ const Upload = ({className, color} : {className : string, color : string}) => {
     </svg>
   );
 };
-const Reload = ({className, color} : {className : string, color : string}) => {
+const Reload = ({ className, color }: { className: string; color: string }) => {
   return (
     <svg
       width="25"
@@ -38,7 +38,7 @@ const Reload = ({className, color} : {className : string, color : string}) => {
     </svg>
   );
 };
-const Infor = ({className, color} : {className : string, color : string}) => {
+const Infor = ({ className, color }: { className: string; color: string }) => {
   return (
     <svg
       width="25"
@@ -56,23 +56,28 @@ const Infor = ({className, color} : {className : string, color : string}) => {
     </svg>
   );
 };
-const Position = ({className, color} : {className : string, color : string}) => {
+const Position = ({
+  className,
+  color,
+}: {
+  className: string;
+  color: string;
+}) => {
   return (
     <svg
-      width="25"
-      height="26"
-      viewBox="0 0 25 26"
+      xmlns="http://www.w3.org/2000/svg"
+      height="1em"
+      viewBox="0 0 512 512"
       fill="none"
       className={className}
-      xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M6.25 6.39282H18.75V18.8928H6.25V6.39282ZM7.8125 17.3303H14.5142L10.1562 12.9602L7.8125 15.3162V17.3303ZM7.8125 7.95532V13.0945L10.1562 10.7629L16.7358 17.3303H17.1875V7.95532H7.8125ZM14.8438 11.0803C14.6322 11.0803 14.4491 11.003 14.2944 10.8484C14.1398 10.6938 14.0625 10.5107 14.0625 10.2991C14.0625 10.0875 14.1398 9.90438 14.2944 9.74976C14.4491 9.59513 14.6322 9.51782 14.8438 9.51782C15.0553 9.51782 15.2384 9.59513 15.3931 9.74976C15.5477 9.90438 15.625 10.0875 15.625 10.2991C15.625 10.5107 15.5477 10.6938 15.3931 10.8484C15.2384 11.003 15.0553 11.0803 14.8438 11.0803ZM10.4858 4.37866L9.375 3.26782L12.5 0.142822L15.625 3.26782L14.5142 4.37866L12.5 2.35229L10.4858 4.37866ZM14.5142 20.907L15.625 22.0178L12.5 25.1428L9.375 22.0178L10.4858 20.907L12.5 22.9333L14.5142 20.907ZM4.23584 10.6287L2.20947 12.6428L4.23584 14.657L3.125 15.7678L0 12.6428L3.125 9.51782L4.23584 10.6287ZM25 12.6428L21.875 15.7678L20.7642 14.657L22.7905 12.6428L20.7642 10.6287L21.875 9.51782L25 12.6428Z"
         fill={color || "#fff"}
         className="transition-all duration-[0.5s]"
+        d="M3.9 54.9C10.5 40.9 24.5 32 40 32H472c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9V448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6V320.9L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"
       />
     </svg>
   );
 };
 
-export { Upload , Reload, Infor , Position};
+export { Upload, Reload, Infor, Position };

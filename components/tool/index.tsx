@@ -4,6 +4,7 @@ import { Upload, Reload, Infor, Position } from "@/assets/images/tool/index";
 import { imageDb } from "./data";
 import { ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
+import AlertDialogSlide from "../home/alert";
 const variants = {
   is: {
     width: ["0%", "100%"],
@@ -32,7 +33,7 @@ type Status = {
   position?: string | null;
   reload?: string | null;
 };
-function Index() {
+function Tool({setOpen} : any) {
   const [image, setImage] = useState<File>();
   const [status, setStatus] = useState<Status>({
     upload: null,
@@ -143,7 +144,9 @@ function Index() {
                 position: null,
               });
             }}
-  
+            onClick={() => {              
+              setOpen(true);
+            }}
             className=""
             htmlFor="position"
           >
@@ -239,4 +242,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Tool;
