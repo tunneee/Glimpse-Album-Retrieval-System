@@ -47,5 +47,8 @@ This will allow external access to your backend server at http://glimpse.serveo.
 
 # 
 
-https://github.com/tunneee/Glimpse-Album-Retrieval-System/assets/95611334/83e6dd4f-c57a-4423-ba57-c668c351a34e
+
+https://github.com/tunneee/Glimpse-Album-Retrieval-System/assets/95611334/0a32abe2-0c82-45cf-af53-b41e6e9ae986
+
+
 
