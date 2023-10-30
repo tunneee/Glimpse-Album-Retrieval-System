@@ -18,7 +18,7 @@ To run the front-end of the project, follow these steps:
 2. Run the following commands to install dependencies and start the development server:
 
 ```bash
-npm install
+npm i
 npm run dev
 ```
 
