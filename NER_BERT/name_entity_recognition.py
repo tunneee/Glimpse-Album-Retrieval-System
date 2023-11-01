@@ -14,23 +14,19 @@ import parsedatetime
 def get_data(new_tokens, new_labels, prompt):
     names = []
     locs = []
-    orgs = []
     tims = []
 
     curr_name = ""
     curr_loc = ""
-    curr_org = ""
     curr_tim = ""
     for i in range(len(new_tokens)):
         if new_labels[i] != 'O':
             leb = new_labels[i]
+            # print(curr_loc)
             if leb == "B-per":
                 if curr_loc != "":
                     locs.append(curr_loc)
                     curr_loc = ""
-                if curr_org != "":
-                    orgs.append(curr_org)
-                    curr_org = ""
                 if curr_tim != "":
                     tims.append(curr_tim)
                     curr_tim = ""
@@ -43,9 +39,6 @@ def get_data(new_tokens, new_labels, prompt):
                 if curr_loc != "":
                     locs.append(curr_loc)
                     curr_loc = ""
-                if curr_org != "":
-                    orgs.append(curr_org)
-                    curr_org = ""
                 if curr_tim != "":
                     tims.append(curr_tim)
                     curr_tim = ""
@@ -57,9 +50,6 @@ def get_data(new_tokens, new_labels, prompt):
                 if curr_name != "":
                     names.append(curr_name)
                     curr_name = ""
-                if curr_org != "":
-                    orgs.append(curr_org)
-                    curr_org = ""
                 if curr_tim != "":
                     tims.append(curr_tim)
                     curr_tim = ""
@@ -71,9 +61,6 @@ def get_data(new_tokens, new_labels, prompt):
                 if curr_name != "":
                     names.append(curr_name)
                     curr_name = ""
-                if curr_org != "":
-                    orgs.append(curr_org)
-                    curr_org = ""
                 if curr_tim != "":
                     tims.append(curr_tim)
                     curr_tim = ""
@@ -82,34 +69,28 @@ def get_data(new_tokens, new_labels, prompt):
                 curr_loc += new_tokens[i]
 
             if leb == "B-org":
-                if curr_loc != "":
-                    locs.append(curr_loc)
-                    curr_loc = ""
                 if curr_name != "":
                     names.append(curr_name)
                     curr_name = ""
                 if curr_tim != "":
                     tims.append(curr_tim)
                     curr_tim = ""
-                if curr_org != "":
-                    curr_org += " "
-                curr_org += new_tokens[i]
+                if curr_loc != "":
+                    curr_loc += " "
+                curr_loc += new_tokens[i]
 
 
 
             if leb == "I-org":
-                if curr_loc != "":
-                    locs.append(curr_loc)
-                    curr_loc = ""
                 if curr_name != "":
                     names.append(curr_name)
                     curr_name = ""
                 if curr_tim != "":
                     tims.append(curr_tim)
                     curr_tim = ""
-                if curr_org != "":
-                    curr_org += " "
-                curr_org += new_tokens[i]
+                if curr_loc != "":
+                    curr_loc += " "
+                curr_loc += new_tokens[i]
 
             if leb == "B-tim":
                 if curr_loc != "":
@@ -118,9 +99,6 @@ def get_data(new_tokens, new_labels, prompt):
                 if curr_name != "":
                     names.append(curr_name)
                     curr_name = ""
-                if curr_org != "":
-                    locs.append(curr_org)
-                    curr_org = ""
                 if curr_tim != "":
                     curr_tim += " "
                 curr_tim += new_tokens[i]
@@ -132,13 +110,9 @@ def get_data(new_tokens, new_labels, prompt):
                 if curr_name != "":
                     names.append(curr_name)
                     curr_name = ""
-                if curr_org != "":
-                    locs.append(curr_org)
-                    curr_org = ""
                 if curr_tim != "":
                     curr_tim += " "
                 curr_tim += new_tokens[i]
-
         else:
             if curr_name != "":
                 names.append(curr_name)
@@ -146,20 +120,16 @@ def get_data(new_tokens, new_labels, prompt):
             if curr_loc != "":
                 locs.append(curr_loc)
                 curr_loc = ""
-            if curr_org != "":
-                orgs.append(curr_org)
-                curr_org = ""
             if curr_tim != "":
                 tims.append(curr_tim)
                 curr_tim = ""
 
 
-
+    # print(names, locs, orgs, tims)
     df = pd.DataFrame()
     df["Free flow of Text"] = [prompt]
-    df["Extracted Name"] = [names]
+    df["Extracted Name"] = [list(set(names))]
     df["Extracted Location"] = [locs]
-    df["Extracted Organization"] = [orgs]
     df["Extracted Time"] = [tims]
 
     # df.to_csv("output1.csv", index=False)
@@ -182,7 +152,7 @@ def infor_recognition(model_fine_tuned, tokenizer_bert, prompt):
         label_indices = np.argmax(output[0].to('cpu').numpy(),axis=2)
 
     tokens = tokenizer_bert.convert_ids_to_tokens(input_ids.to('cpu').numpy()[0])
-
+    # print(tokens, label_indices)
     new_tokens, new_labels = [], []
 
     for token, label_idx in zip(tokens, label_indices[0]):
@@ -191,11 +161,10 @@ def infor_recognition(model_fine_tuned, tokenizer_bert, prompt):
         else:
             new_labels.append(tag_values[label_idx])
             new_tokens.append(token)
-
     df = get_data(new_tokens, new_labels, prompt)
+    # print(df.head(1))
     
     df["Extracted Time"][0] = [time_encoder(i) for i in df["Extracted Time"][0]]
-    
     # from day, month a -> b, list of day (a1,a2,a3...), list of time (b1,b2,b3...),...
     
     
