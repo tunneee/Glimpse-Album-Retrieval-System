@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Album, Result, Face, Setting } from "../../assets/images/header/index";
-import  {motion}  from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const variants: any = {
@@ -45,7 +45,15 @@ const menu = {
     rotate: 45,
   },
 };
-function Index({ url }: { url: string }) {
+function Index({
+  url,
+  action,
+  setAction
+}: {
+  url: string;
+  action: { y: number; action: number };
+  setAction  :any
+}) {
   const [isOpen, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const album = useRef<HTMLLIElement>(null);
@@ -62,9 +70,6 @@ function Index({ url }: { url: string }) {
     face: boolean;
     setting: boolean;
   }>({ album: true, result: false, face: false, setting: false });
-  const [action, setAction] = useState<any>((): any => {
-    return { y: 0, action: 1 };
-  });
   useEffect(() => {
     window.addEventListener("wheel", () => {
       setOpen(false);
@@ -81,9 +86,7 @@ function Index({ url }: { url: string }) {
       case "/result":
         setAction((): any => {
           const { offsetTop }: any =
-            result?.current?.offsetTop != 0
-              ? result?.current
-              : 67;
+            result?.current?.offsetTop != 0 ? result?.current : 67;
           return { y: offsetTop || 67, action: 2 };
         });
         break;
@@ -96,9 +99,8 @@ function Index({ url }: { url: string }) {
         break;
       case "/setting":
         setAction((): any => {
-          const { offsetTop }: any = setting?.current?.offsetTop != 0
-            ? setting?.current
-            : 200;
+          const { offsetTop }: any =
+            setting?.current?.offsetTop != 0 ? setting?.current : 200;
           return { y: offsetTop || 200, action: 4 };
         });
         break;
@@ -262,7 +264,6 @@ function Index({ url }: { url: string }) {
               className={`absolute w-[4px] right-0 rounded-[200px_0px_0_200px] bg-[#0098FF] h-[30px] z-[1]`}
             ></motion.div>
             <motion.li
-      
               animate={status.album ? "focus" : "not"}
               variants={button}
               className=" flex items-center z-[2]"

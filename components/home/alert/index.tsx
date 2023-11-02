@@ -25,11 +25,11 @@ const Transition = React.forwardRef(function Transition(
 export default function AlertDialogSlide({
   setOpen,
   open,
-  findDay
+  findDay,
 }: {
   setOpen: any;
   open: boolean;
-  findDay : any
+  findDay: any;
 }) {
   const [time, setTime] = React.useState<any>(() => {
     const time = new Date();
@@ -38,43 +38,41 @@ export default function AlertDialogSlide({
   const handleClose = () => {
     setOpen(false);
   };
- 
+
   return (
-    <div>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>Search</DialogTitle>
-        <DialogContent className="flex gap-[10px] overscroll-none">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DatePicker
-                onChange={(event: any) => {
-                  // const { value } = event.target as HTMLInputElement;
-                  setTime(event.$d.getTime());
-                }}
-                label="Basic date picker"
-                value={dayjs(time)}
-              />
-            </DemoContainer>
-          </LocalizationProvider>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancle</Button>
-          <Button
-            onClick={async () => {
-              await findDay(Number((time / 1000).toFixed(0)))
-              handleClose();
-            }}
-          >
-            Find
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>Search</DialogTitle>
+      <DialogContent className="flex gap-[10px] overscroll-none">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker"]}>
+            <DatePicker
+              onChange={(event: any) => {
+                // const { value } = event.target as HTMLInputElement;
+                setTime(event.$d.getTime());
+              }}
+              label="Basic date picker"
+              value={dayjs(time)}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancle</Button>
+        <Button
+          onClick={async () => {
+            await findDay(Number((time / 1000).toFixed(0)));
+            handleClose();
+          }}
+        >
+          Find
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

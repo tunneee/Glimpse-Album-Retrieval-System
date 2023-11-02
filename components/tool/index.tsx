@@ -5,6 +5,7 @@ import { imageDb } from "./data";
 import { ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import AlertDialogSlide from "../home/alert";
+import { useRouter } from "next/navigation";
 const variants = {
   is: {
     width: ["0%", "100%"],
@@ -33,7 +34,8 @@ type Status = {
   position?: string | null;
   reload?: string | null;
 };
-function Tool({setOpen} : any) {
+function Tool({ setOpen, setUpload, isUpload }: any) {
+  const router = useRouter();
   const [image, setImage] = useState<File>();
   const [status, setStatus] = useState<Status>({
     upload: null,
@@ -47,14 +49,15 @@ function Tool({setOpen} : any) {
       const len = imgs.length;
       for (var i = 0; i < len; i++) {
         const extension = imgs[i].type.split("/")[0];
-        console.log("extension", extension);
         if (extension == "image") {
           const imgRef = ref(imageDb, `image/${v4()}`);
           uploadBytes(imgRef, imgs[i]);
+          setUpload(!isUpload);
         } else if (extension == "video") {
           console.log("1", 1);
           const imgRef = ref(imageDb, `video/${v4()}`);
           uploadBytes(imgRef, imgs[i]);
+          setUpload(!isUpload);
         }
       }
     }
@@ -144,7 +147,7 @@ function Tool({setOpen} : any) {
                 position: null,
               });
             }}
-            onClick={() => {              
+            onClick={() => {
               setOpen(true);
             }}
             className=""
@@ -157,6 +160,9 @@ function Tool({setOpen} : any) {
           </label>
           <input className="hidden" type="button" id="reload" />
           <label
+            onClick={() => {
+              router.reload();
+            }}
             onMouseEnter={(e: React.MouseEvent) => {
               setStatus({
                 ...status,

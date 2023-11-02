@@ -48,6 +48,7 @@ const Card = (props: Props) => {
   const [isThumnail, setThumnail] = useState<boolean>(true);
   const [isContinue, setContinue] = useState<boolean>(false);
   const [isSelect, setSelect] = useState<boolean>(false);
+  const [isHover, setHover] = useState<boolean>(false);
 
   let stillPreview: any = null;
   const time = new Date(props?.timestamp ? props?.timestamp * 1000 : -1);
@@ -82,25 +83,28 @@ const Card = (props: Props) => {
       );
     return () => clearInterval(stillPreview);
   }, [isContinue]);
-  const getMap = async () => {
-    await axios
-      .get(`https://glimpse.serveo.net/map/${props.id}`)
-      .then((res) => console.log("res", res));
-  };
-  useEffect(() => {
-    if (!isSelect) return;
-    if (isSelect) {
-      getMap();
-    }
-  }, [isSelect]);
+  function secondsToHms(d: any) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor((d % 3600) / 60);
+    var s = Math.floor((d % 3600) % 60);
+
+    var hDisplay = h >= 10 ? `${h}0` : h > 0 ? `0${h}` : "00";
+    var mDisplay = m >= 10 ? `${m}` : m > 0 ? `0${m}` : "00";
+    var sDisplay = s >= 10 ? `${s}` : s > 0 ? `0${s}` : "00";
+    return [hDisplay, mDisplay, sDisplay].join(":");
+  }
   const startPreview = () => {
     const video: HTMLMediaElement | null = videoCurrent.current;
-    if (video && props?.times) video!.currentTime = props?.times - 5;
+    if (video && props?.times)
+      video!.currentTime = props?.times > 5 ? props?.times - 5 : 5;
     video?.play();
   };
   const stopPreview = () => {
     const video: HTMLMediaElement | null = videoCurrent.current;
-    if (video && props?.times) video!.currentTime = props?.times - 5;
+    video!.currentTime = 1;
+    if (video && props?.times)
+      video!.currentTime = props?.times > 5 ? props?.times - 5 : 5;
     video?.pause();
   };
   const [isplay, setplay] = useState<boolean>(false);
@@ -122,8 +126,8 @@ const Card = (props: Props) => {
             <picture>
               <LazyLoadImage
                 effect="blur"
-                placeholderSrc={props?.url || "/"}
-                src={props?.url || "/"}
+                placeholderSrc={`${props?.url}?tr=w-130` || "/"}
+                src={`${props?.url}` || "/"}
                 alt="anh"
                 width={"100%"}
                 height={"100%"}
@@ -145,17 +149,21 @@ const Card = (props: Props) => {
               }}
               className="w-full h-full relative"
             >
-              <LazyLoadImage
-                effect="blur"
-                placeholderSrc={props?.url || "/"}
-                src={props?.url || "/"}
-                alt="anh"
-                width={"100%"}
-                height={"100%"}
+              <span
                 className={` ${
                   isThumnail ? "opacity-100" : "opacity-0"
                 } absolute transition-opacity duration-[1s]  w-full h-full`}
-              ></LazyLoadImage>
+              >
+                <LazyLoadImage
+                  effect="blur"
+                  placeholderSrc={`${props?.url}` || "/"}
+                  src={`${props?.url}` || "/"}
+                  alt="anh"
+                  width={"100%"}
+                  height={"100%"}
+                  className=" w-full h-full"
+                ></LazyLoadImage>
+              </span>
               <video
                 ref={videoCurrent}
                 width={170}
@@ -164,13 +172,6 @@ const Card = (props: Props) => {
                 loop
                 className="object-cover block  z-0 w-[100%] h-[100%]"
                 id={`video${props?.video_id}`}
-                onMouseEnter={(e) => {
-                  // startPreview();
-                }}
-                onMouseLeave={(e: React.MouseEvent) => {
-                  // clearTimeout(previewTimeout);
-                  // previewTimeout = null;
-                }}
               >
                 <source src={props?.video_url || ""} type="video/mp4" />
               </video>
@@ -214,12 +215,11 @@ const Card = (props: Props) => {
                 className="cursor-pointer flex lg:flex-row  sm:flex-col justify-start transition-shadow duration-200 ease-in-out lg:rounded-[10px] sm:rounded-[10px] relative aspect-[1/1] w-full overflow-hidden"
               >
                 <div className="relative bg-[#fff] lg:w-3/5 sm:w-full lg:h-full sm:h-3/5">
-                  {props?.filetype == "image" ||
-                  props?.filetype == "keyframe" ? (
+                  {props?.filetype == "image" ? (
                     <>
                       <picture className="z-10">
                         <LazyLoadImage
-                          src={props?.url?.replaceAll("150", "1440") || "/"}
+                          src={`${props?.url?.replaceAll("150", "1000")}`}
                           alt="anh"
                           width={1440}
                           height={900}
@@ -233,14 +233,17 @@ const Card = (props: Props) => {
                         width={1400}
                         height={990}
                         loop
-                        controls
+                        controls={isHover}
+                        onMouseEnter={() => {
+                          setHover(true);
+                        }}
+                        onMouseLeave={() => {
+                          setHover(false);
+                        }}
                         autoPlay
                         className="object-cover block  aspect-[1/1] z-0 w-[100%] h-[100%]"
                       >
-                        <source
-                          src={props?.video_url || "/"}
-                          type="video/mp4"
-                        />
+                        <source src={props?.video_url || ""} type="video/mp4" />
                       </video>
                     </div>
                   )}
@@ -266,14 +269,11 @@ const Card = (props: Props) => {
                       <h4 className="font-[500] text-[1.2em]">Filetype : </h4>
                       <p className="font-[300] text-[1em]">{` ${
                         props?.filetype == "image"
-                          ? `image(${props?.video_url?.slice(
-                              props?.video_url.length - 20,
-                              props?.video_url.length - 16
-                            )})`
-                          : `video(${props?.video_url?.slice(
-                              props?.video_url.length - 4,
-                              props?.video_url.length
-                            )})`
+                          ? `image(${props?.url
+                              ?.split(".")
+                              .slice(-1)
+                              .slice(0, 4)})`
+                          : `video(${props?.video_url?.split(".").slice(-1)})`
                       } `}</p>
                     </span>
                     <span className="flex sm:flex-col md:flex-row  items-baseline">
@@ -289,38 +289,23 @@ const Card = (props: Props) => {
                           Video duration :{" "}
                         </h4>
                         <p className="font-[300] text-[1em]">
-                          {Math.floor(videoCurrent.current?.duration || 10) > 59
-                            ? `${
-                                Math.floor(
-                                  videoCurrent.current?.duration || 0
-                                ) / 60
-                              }:${
-                                Math.floor(
-                                  videoCurrent.current?.duration || 0
-                                ) % 60
-                              }s`
-                            : Math.floor(videoCurrent.current?.duration || 0) %
-                                60 <
-                              10
-                            ? `0:0${
-                                Math.floor(
-                                  videoCurrent.current?.duration || 0
-                                ) % 60
-                              }s`
-                            : `0:${
-                                Math.floor(
-                                  videoCurrent.current?.duration || 0
-                                ) % 60
-                              }s`}
+                          {`${secondsToHms(videoCurrent?.current?.duration)}`}
                         </p>
                       </span>
                     ) : null}
                   </div>
-                  <div className="w-full h-full">
+                  <div className="w-full h-full relative">
                     <iframe
                       className="w-full h-full relative"
                       src={`https://glimpse.serveo.net/map/${props.id}`}
                     ></iframe>
+                    <Link
+                      href={`/map/${props.id}`}
+                      target="_blank"
+                      className="absolute bottom-[10px] right-[10px] p-[10px_20px] bg-[#202020] text-[#fff] rounded-full"
+                    >
+                      Go to map
+                    </Link>
                   </div>
                 </motion.div>
               </motion.li>
