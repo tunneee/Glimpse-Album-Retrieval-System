@@ -1,5 +1,0 @@
-# .gitignore
-config/firebase.json
-config/qdrant_config.py
-.ipynb_checkpoints
-__pycache__
