@@ -20,6 +20,12 @@ detector = MTCNN()
 embedder = FaceNet()
 client = QdrantClient(url=url, prefer_grpc=True, api_key=api_key)
 
+ENDPOINT = {
+    'image': 'https://ik.imagekit.io/tunne/images',
+    'keyframe': 'https://ik.imagekit.io/tunne/keyframes',
+    'video': 'https://ik.imagekit.io/tunne/videos'
+}
+
 
 # Function to detect faces, embed them, and update databases
 def detect_faces_embed_update(id_url):
@@ -163,9 +169,26 @@ def alignment_procedure(img, left_eye, right_eye):
         img = np.array(img.rotate(direction * angle))
 
     return img
+def return_thumbnail_url(url, filetype, url_endpoints):
+    '''
+    url: firebase url
+    filetype: [image, keyframe]
+    '''
+    assert filetype in ['image', 'keyframe', 'video']
 
+    filename = url.split('/')[-1]
+    thumbnail_url = ''
+        
+    if filetype == 'image':
+        thumbnail_url += url_endpoints['image'] + '/' + filename 
+    if filetype == 'keyframe':
+        thumbnail_url += url_endpoints['keyframe'] + '/' + filename 
+    if filetype == 'video':
+        thumbnail_url += url_endpoints['video'] + '/' + filename
+    return thumbnail_url
 # Function to load an image from a URL
 def load_img_from_url(img_url):
+    img_url = return_thumbnail_url(img_url, 'image', ENDPOINT)
     raw_image = Image.open(requests.get(img_url, stream=True).raw).convert('RGB')   
     raw_image = ImageOps.exif_transpose(raw_image)
     return raw_image
