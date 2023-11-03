@@ -6,7 +6,7 @@
       "normalized": false,
       "rstrip": false,
       "single_word": false,
-      "special": false
+      "special": true
     },
     "100": {
       "content": "[UNK]",
@@ -14,7 +14,7 @@
       "normalized": false,
       "rstrip": false,
       "single_word": false,
-      "special": false
+      "special": true
     },
     "101": {
       "content": "[CLS]",
@@ -22,7 +22,7 @@
       "normalized": false,
       "rstrip": false,
       "single_word": false,
-      "special": false
+      "special": true
     },
     "102": {
       "content": "[SEP]",
@@ -30,7 +30,7 @@
       "normalized": false,
       "rstrip": false,
       "single_word": false,
-      "special": false
+      "special": true
     },
     "103": {
       "content": "[MASK]",
@@ -38,10 +38,9 @@
       "normalized": false,
       "rstrip": false,
       "single_word": false,
-      "special": false
+      "special": true
     }
   },
-  "additional_special_tokens": [],
   "clean_up_tokenization_spaces": true,
   "cls_token": "[CLS]",
   "do_basic_tokenize": true,
@@ -54,6 +53,5 @@
   "strip_accents": null,
   "tokenize_chinese_chars": true,
   "tokenizer_class": "BertTokenizer",
-  "tokenizer_file": "/root/.cache/huggingface/hub/models--bert-base-cased/snapshots/5532cc56f74641d4bb33641f5c76a55d11f846e0/tokenizer.json",
   "unk_token": "[UNK]"
 }
