@@ -9,6 +9,7 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
 from datetime import datetime
+from datetime import timedelta
 import parsedatetime
 
 def get_data(new_tokens, new_labels, prompt):
@@ -140,8 +141,22 @@ def time_encoder(time):
     cal = parsedatetime.Calendar()
     time_struct, parse_status = cal.parse(time)
     # print(time_struct[0:3])
-    ans = datetime(*time_struct[0:3]).timestamp()
-    return ans
+    t1 = datetime(*time_struct[0:3])
+    if 'day' in time:
+        t2 = t1 + timedelta(days=1)
+    elif 'week' in time:
+        t2 = t1 + timedelta(days=7)
+    elif 'month' in time:
+        t2 = t1 + timedelta(days=30)
+    elif 'year' in time:
+        t2 = t1 + timedelta(days=365)
+    else:
+        t2 = t1
+    print(t1, t2)
+    t1 = t1.timestamp()
+    t2 = t2.timestamp()    
+    
+    return t1, t2
 
 def infor_recognition(model_fine_tuned, tokenizer_bert, prompt):
     tag_values = ['O', 'B-org', 'B-geo', 'B-per', 'I-org', 'I-per', 'I-geo', 'B-tim', 'I-tim', 'PAD']
@@ -166,7 +181,7 @@ def infor_recognition(model_fine_tuned, tokenizer_bert, prompt):
     # print(df.head(1))
     
     
-    time_encoder_list = [time_encoder(i) for i in df["Extracted Time"][0]]
+    t1, t2 = time_encoder(df["Extracted Time"][0][0])
     # from day, month a -> b, list of day (a1,a2,a3...), list of time (b1,b2,b3...),...
     
-    return df["Extracted Name"][0], df["Extracted Location"][0], df['Extracted Time'][0], time_encoder_list
+    return df["Extracted Name"][0], df["Extracted Location"][0], df['Extracted Time'][0], t1, t2
