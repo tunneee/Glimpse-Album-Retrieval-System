@@ -24,6 +24,8 @@ type Props = {
   answer?: string | undefined;
   timestamp?: number | undefined;
   isLoading: boolean;
+  circle?: boolean | undefined;
+  hiddenType?: boolean | undefined;
 };
 const setClick = {
   hidden: {
@@ -120,7 +122,11 @@ const Card = (props: Props) => {
           onClick={() => {
             setSelect(true);
           }}
-          className="cursor-pointer hover:shadow-[0_0_10px_0px_#202020] transition-shadow duration-200 ease-in-out lg:rounded-[20px] sm:rounded-[10px] relative aspect-[1/1] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)] shadow-[4px_4px_4px_0_rgba(32,32,32,0.25)] overflow-hidden"
+          className={`${
+            props.circle
+              ? "rounded-full "
+              : "lg:rounded-[20px] sm:rounded-[10px]"
+          } cursor-pointer snap-center list-none hover:shadow-[0_0_10px_0px_#202020] transition-shadow duration-200 ease-in-out  relative aspect-[1/1] xl:min-w-[170px] lg:min-w-[calc((100%-40px)/5)] md:min-w-[calc((100%-30px)/4)] ssm:min-w-[calc((100%-24px)/4)] sm:min-w-[calc((100%-16px)/3)] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)] shadow-[4px_4px_4px_0_rgba(32,32,32,0.25)] overflow-hidden`}
         >
           {props?.filetype == "image" ? (
             <picture>
@@ -178,23 +184,25 @@ const Card = (props: Props) => {
             </div>
           )}
           <span className="absolute xl:bottom-[10px] xl:right-[10px] lg:bottom-[8px] lg:right-[8px] sm:bottom-[5px] sm:right-[5px] xl:w-[25px] xl:h-[25px] lg:w-[20px] lg:h-[20px] sm:w-[15px] sm:h-[15px] overflow-hidden">
-            {props?.filetype == "image" ? (
-              <Image
-                src={imageIcon}
-                alt="image"
-                width={25}
-                height={25}
-                className="w-full h-full"
-              ></Image>
-            ) : (
-              <Image
-                src={videoIcon}
-                alt="image"
-                width={25}
-                height={25}
-                className="w-full h-full"
-              ></Image>
-            )}
+            {!props.hiddenType ? (
+              props?.filetype == "image" ? (
+                <Image
+                  src={imageIcon}
+                  alt="image"
+                  width={25}
+                  height={25}
+                  className="w-full h-full"
+                ></Image>
+              ) : (
+                <Image
+                  src={videoIcon}
+                  alt="image"
+                  width={25}
+                  height={25}
+                  className="w-full h-full"
+                ></Image>
+              )
+            ) : null}
           </span>
         </motion.li>
         <AnimatePresence>
@@ -316,7 +324,11 @@ const Card = (props: Props) => {
     );
   else
     return (
-      <li className="lg:rounded-[20px] sm:rounded-[10px] flex justify-center flex-wrap items-center relative aspect-[1/1] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)] overflow-hidden">
+      <li
+        className={`${
+          props.circle ? "rounded-full " : "lg:rounded-[20px] sm:rounded-[10px]"
+        } cursor-pointer snap-center list-none  duration-200 ease-in-out  relative aspect-[1/1] xl:min-w-[170px] lg:min-w-[calc((100%-40px)/5)] md:min-w-[calc((100%-30px)/4)] ssm:min-w-[calc((100%-24px)/4)] sm:min-w-[calc((100%-16px)/3)] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)] overflow-hidden`}
+      >
         <Skeleton
           width={250}
           height={250}
@@ -324,7 +336,7 @@ const Card = (props: Props) => {
           className="w-full h-full"
         />
         <p
-          className={`${style.text} lg:text-[22px] md:text-[20px] sm:text-[16px]`}
+          className={`${style.text} xl:text-[24px] lg:text-[22px] md:text-[20px] sm:text-[14px]`}
         >
           Glimpse
         </p>

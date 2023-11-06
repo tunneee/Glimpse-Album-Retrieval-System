@@ -6,7 +6,6 @@
     color: #20202088;
     overflow: hidden;
     font-weight: 700;
-    font-size:  24px;
     animation: loading 4s 0.5s infinite;
     transition: color 1s;
 }

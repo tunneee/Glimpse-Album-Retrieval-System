@@ -4,25 +4,28 @@ import mic from "@/assets/images/section__input/mic.svg";
 import { useRouter } from "next/navigation";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-const SectionInput = () => {
+const SectionInput = ({ setLoading, setListAnswer }: any) => {
   const router = useRouter();
   const submitAnswer = (text: string) => {
     if (typeof window !== undefined) {
       let arr = JSON.parse(localStorage.getItem("answer") || "[]");
-      arr = [text, ...arr]
-      console.log('arr', arr)
-      localStorage.setItem("answer", JSON.stringify(arr));
-      content!.current!.innerText = "" ;
-      setAutoFocus(false);
+      arr = [text, ...arr];
       router.push("/result");
-      router.refresh()
+      router.refresh();
+      content!.current!.innerText = "";
+      setAutoFocus(false);
+      localStorage.setItem("answer", JSON.stringify(arr));
+      try {
+        setListAnswer(arr);
+        setLoading(false);
+      } catch {}
     }
   };
   const body = document.querySelector("body");
   const content = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<string>("");
   const [autoFocus, setAutoFocus] = useState<boolean>(false);
-  
+
   useEffect(() => {
     if (autoFocus) return;
     document.addEventListener("keydown", (e: KeyboardEvent) => {
@@ -68,21 +71,24 @@ const SectionInput = () => {
             className="relative h-full flex align-middle items-center break-words md:text-[16px] sm:text-[10px] lg:h-[25px] md:min-h-[20px] sm:min-h-full bg-[transparent] placeholder:text-[#ffffff81]  xl:w-full outline-0 caret-[#fff] text-[#fff]"
           >
             <p className="z-[2] h-[auto] min-h-full flex items-center"></p>
-            <p
-              spellCheck={false}
-              className={`${
-                autoFocus || text ? "hidden" : ""
-              } h-full z-[1] md:text-[16px] flex items-center sm:text-[10px] absolute select-none top-0 left-0`}
-            >
-              Click the buttons or press{"  "}
-              <span
+            {autoFocus || text.length !== 0 ? (
+              ""
+            ) : (
+              <p
                 spellCheck={false}
-                className={`select-none mx-[2px] p-[2px] bg-[#ffffff35] rounded-[2px]`}
+                className={`h-full z-[1] md:text-[16px] flex items-center sm:text-[10px] absolute select-none top-0 left-0`}
               >
-                Enter
-              </span>{"  "}
-              to send require...
-            </p>
+                Click the buttons or press{"  "}
+                <span
+                  spellCheck={false}
+                  className={`select-none mx-[2px] p-[2px] bg-[#ffffff35] rounded-[2px]`}
+                >
+                  Enter
+                </span>
+                {"  "}
+                to send require...
+              </p>
+            )}
           </div>
           <span className="text-[#ffffff81] lg:block sm:hidden">
             {text.length}/2000

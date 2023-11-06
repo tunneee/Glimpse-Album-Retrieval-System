@@ -56,7 +56,7 @@ export default function AlertDialogSlide({
                 // const { value } = event.target as HTMLInputElement;
                 setTime(event.$d.getTime());
               }}
-              label="Basic date picker"
+              label="Date picker"
               value={dayjs(time)}
             />
           </DemoContainer>

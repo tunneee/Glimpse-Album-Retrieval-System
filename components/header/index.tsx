@@ -2,7 +2,13 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Album, Result, Face, Setting } from "../../assets/images/header/index";
+import {
+  Album,
+  Result,
+  Face,
+  Setting,
+  Map,
+} from "../../assets/images/header/index";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -48,11 +54,11 @@ const menu = {
 function Index({
   url,
   action,
-  setAction
+  setAction,
 }: {
   url: string;
   action: { y: number; action: number };
-  setAction  :any
+  setAction: any;
 }) {
   const [isOpen, setOpen] = useState<boolean>(false);
   const router = useRouter();
@@ -60,23 +66,44 @@ function Index({
   const result = useRef<HTMLLIElement>(null);
   const face = useRef<HTMLLIElement>(null);
   const setting = useRef<HTMLLIElement>(null);
-  const albumsm = useRef<HTMLLIElement>(null);
-  const resultsm = useRef<HTMLLIElement>(null);
-  const facesm = useRef<HTMLLIElement>(null);
-  const settingsm = useRef<HTMLLIElement>(null);
+  const map = useRef<HTMLLIElement>(null);
+  const [positionEachElement, setPositionEachElement] = useState({
+    album: {
+      y: 0,
+      action: 1,
+    },
+    result: {
+      y: result?.current?.offsetTop != 0 ? result?.current : 67,
+      action: 2,
+    },
+    face: {
+      y: face?.current?.offsetTop != 0 ? face?.current : 133,
+      action: 3,
+    },
+    map: {
+      y: map?.current?.offsetTop != 0 ? map?.current : 133,
+      action: 4,
+    },
+    setting: {
+      y: setting?.current?.offsetTop != 0 ? setting?.current : 133,
+      action: 5,
+    },
+  });
+
   const [status, setStatus] = useState<{
     album: boolean;
     result: boolean;
     face: boolean;
     setting: boolean;
-  }>({ album: true, result: false, face: false, setting: false });
+    map: boolean;
+  }>({ album: true, result: false, face: false, setting: false, map: false });
   useEffect(() => {
     window.addEventListener("wheel", () => {
       setOpen(false);
     });
   }, [isOpen]);
-  useEffect(() => {
-    switch (url) {
+  const updatePositionEachElement = (currentUrl: string) => {
+    switch (currentUrl) {
       case "/album":
         setAction((): any => {
           const { offsetTop }: any = album?.current || 0;
@@ -97,14 +124,28 @@ function Index({
           return { y: offsetTop || 133, action: 3 };
         });
         break;
+      case "/map":
+        setAction((): any => {
+          const { offsetTop }: any =
+            map?.current?.offsetTop != 0 ? map?.current : 133;
+          return { y: offsetTop || 133, action: 4 };
+        });
+        break;
       case "/setting":
         setAction((): any => {
           const { offsetTop }: any =
             setting?.current?.offsetTop != 0 ? setting?.current : 200;
-          return { y: offsetTop || 200, action: 4 };
+          return { y: offsetTop || 200, action: 5 };
         });
         break;
     }
+  };
+
+  useEffect(() => {
+    updatePositionEachElement(url);
+    window.addEventListener("resize", () => {
+      updatePositionEachElement(url);
+    });
   }, [url]);
   return (
     <nav>
@@ -132,6 +173,7 @@ function Index({
                   result: false,
                   face: false,
                   setting: false,
+                  map: false,
                 });
                 router.push("/album");
               }}
@@ -160,6 +202,7 @@ function Index({
                   result: true,
                   face: false,
                   setting: false,
+                  map: false,
                 });
                 router.push("/result");
               }}
@@ -188,6 +231,7 @@ function Index({
                   result: false,
                   face: true,
                   setting: false,
+                  map: false,
                 });
                 router.push("/face");
               }}
@@ -204,6 +248,35 @@ function Index({
             </motion.button>
           </motion.li>
           <motion.li
+            animate={status.map ? "focus" : "not"}
+            variants={button}
+            ref={map}
+            className=" lg:pl-[20px] md:pl-[15px] lg:h-[75px] md:h-[50px] flex items-center z-[2]"
+          >
+            <motion.button
+              onClick={() => {
+                setStatus({
+                  album: false,
+                  result: false,
+                  face: false,
+                  setting: false,
+                  map: true,
+                });
+                router.push("/map");
+              }}
+              className="flex md:gap-[10px] items-center"
+            >
+              <Map color={action?.action != 4 ? "#fff" : "#202020"}></Map>
+              <motion.p
+                className={` lg:text-[20px] md:text-[16px] font-[700] ${
+                  action?.action != 4 ? "text-[#fff]" : "text-[#202020]"
+                } transition-colors duration-100 ease-in-out delay-200 `}
+              >
+                Map
+              </motion.p>
+            </motion.button>
+          </motion.li>
+          <motion.li
             animate={status.setting ? "focus" : "not"}
             variants={button}
             ref={setting}
@@ -216,17 +289,18 @@ function Index({
                   result: false,
                   face: false,
                   setting: true,
+                  map: false,
                 });
                 router.push("/setting");
               }}
               className="flex md:gap-[10px] items-center"
             >
               <Setting
-                color={action?.action != 4 ? "#fff" : "#202020"}
+                color={action?.action != 5 ? "#fff" : "#202020"}
               ></Setting>
               <motion.p
                 className={` lg:text-[20px] md:text-[16px] font-[700] ${
-                  action?.action != 4 ? "text-[#fff]" : "text-[#202020]"
+                  action?.action != 5 ? "text-[#fff]" : "text-[#202020]"
                 } transition-colors duration-100 ease-in-out delay-200 `}
               >
                 Setting
@@ -275,6 +349,7 @@ function Index({
                     result: false,
                     face: false,
                     setting: false,
+                    map: false,
                   });
                   router.push("/album");
                 }}
@@ -295,6 +370,7 @@ function Index({
                     result: true,
                     face: false,
                     setting: false,
+                    map: false,
                   });
                   router.push("/result");
                 }}
@@ -315,12 +391,34 @@ function Index({
                     result: false,
                     face: true,
                     setting: false,
+                    map: false,
                   });
                   router.push("/face");
                 }}
                 className="flex md:gap-[10px] items-center"
               >
                 <Face color="#fff"></Face>
+              </motion.button>
+            </motion.li>
+            <motion.li
+              animate={status.map ? "focus" : "not"}
+              variants={button}
+              className=" flex items-center z-[2]"
+            >
+              <motion.button
+                onClick={() => {
+                  setStatus({
+                    album: false,
+                    result: false,
+                    face: false,
+                    setting: false,
+                    map: true,
+                  });
+                  router.push("/map");
+                }}
+                className="flex md:gap-[10px] items-center"
+              >
+                <Map color="#fff"></Map>
               </motion.button>
             </motion.li>
             <motion.li
@@ -335,6 +433,7 @@ function Index({
                     result: false,
                     face: false,
                     setting: true,
+                    map: false,
                   });
                   router.push("/setting");
                 }}

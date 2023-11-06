@@ -41,13 +41,13 @@ export default function RootLayout(props: any) {
             <header className="w-full] lg:h-[80px] md:h-[60px] sm:h-[40px]">
               <div className="max-w-[1440px] mx-[auto] h-full"></div>
             </header>
-            <main className="relative justify-start max-h-[1440px] flex max-w-[1440px] lg:h-[calc(100vh-80px)] md:h-[calc(100vh-60px)] sm:h-[calc(100vh-40px)] mx-[auto]">
+            <main className="relative justify-start max-h-[1440px] flex max-w-[1440px]  lg:h-[calc(100vh-80px)] md:h-[calc(100vh-60px)] sm:h-[calc(100vh-40px)] mx-[auto]">
               <Header
                 url={currentPage}
                 action={action}
                 setAction={setAction}
               ></Header>
-              <section className="relative h-[calc(100%-10px)]  w-full">
+              <section className="relative h-[calc(100%-10px)]  xl:max-w-[calc(100%-240px)] lg:max-w-[calc(100%-190px)] md:max-w-[calc(100%-150px)] w-full">
                 <div className="overflow-y-scroll h-full flex flex-col bg-[#fff] lg:rounded-[20px_0_0_20px] sm:rounded-[10px_0_0_10px] xl:pt-[40px] xl:pb-[120px] xl:pl-[40px] md:p-[20px] md:pb-[120px] sm:p-[10px] sm:pb-[100px]  md:gap-[40px] sm:gap-[20px]">
                   {currentPage === "/album" ? (
                     <Album

@@ -31,19 +31,29 @@ const Index = () => {
     );
     return result;
   });
-  const getNewAnswer = async (result: Array<string>) => {
+  const getNewAnswer = async (result: string) => {
     try {
       await axios
-        .get(`https://glimpse.serveo.net/search/${result[0]}`)
+        .get(`https://glimpse.serveo.net/search/${result}`)
         .then((res) => {
           setData(res.data.points);
           setLoading(true);
           // typeof window !== "undefined"
           // ?
-          localStorage.setItem(result[0], JSON.stringify(res.data.points));
+          localStorage.setItem(result, JSON.stringify(res.data.points));
           // : null;
         });
     } catch (err) {}
+  };
+  const removeAnswer = (index: number, element: string) => {
+    setListAnswer(listAnswer.toSpliced(index, 1));
+    if (!listAnswer.find((answer: string) => answer === element))
+      localStorage.removeItem(element);
+  };
+  const getListImgForRequest = (index: number, request: string) => {
+    if (index !== 0 || isLoading)
+      return JSON.parse(localStorage.getItem(request) || "[]");
+    return Array(6).fill(1);
   };
   useEffect(() => {
     const result = JSON.parse(
@@ -51,17 +61,13 @@ const Index = () => {
         ? localStorage.getItem("answer") || "[]"
         : "[]"
     );
-    setListAnswer(result);
-    getNewAnswer(result);
-    reRender(!render);
-  }, [localStorage.getItem("answer")]);
+    localStorage.setItem("answer", JSON.stringify(listAnswer));
+    getNewAnswer(result[0]);
+  }, [listAnswer]);
   return (
     <>
       {listAnswer?.map((element: string, index: number) => {
-        const arr =
-          index !== 0 || isLoading
-            ? JSON.parse(localStorage.getItem(element) || "[]")
-            : Array(6).fill(1);
+        const arr = getListImgForRequest(index, element);
         if (!element) {
           // typeof window !== "undefined"
           //   ?
@@ -87,31 +93,23 @@ const Index = () => {
                 </h2>
                 <Button
                   onClick={() => {
-                    // if (window) {
-                    listAnswer.splice(index, 1);
-                    // typeof window !== "undefined"
-                    // ?
-                    localStorage.removeItem(element);
-                    localStorage.setItem("answer", JSON.stringify(listAnswer));
-                    // : null;
-                    reRender(!render);
-                    // }
+                    removeAnswer(index, element);
                   }}
                   variant="contained"
                   className="mr-[5px] bg-[#0098FF]"
                 >
-                  Delete
+                  Xóa
                 </Button>
               </div>
               <ul className="flex w-full min-h-[50px] md:gap-[10px] sm:gap-[5px] flex-wrap">
                 {(index === 0 && !isLoading) || arr.length != 0 ? (
-                  arr?.map((image: ImageProps) => {
+                  arr?.map((image: ImageProps, i: number) => {
                     return (
                       <Card
-                        isLoading={isLoading}
+                        isLoading={index === 0 && !isLoading ? false : true}
                         answer={element}
                         key={image?.id}
-                        id={image?.id}
+                        id={`${image?.id}${index}${i}` || `${index}${i}`}
                         url={image?.payload?.url}
                         filetype={image?.payload?.filetype}
                         times={image?.payload?.frame_idx / image?.payload?.fps}
@@ -134,7 +132,10 @@ const Index = () => {
           );
         }
       })}
-      <SectionInput></SectionInput>
+      <SectionInput
+        setLoading={setLoading}
+        setListAnswer={setListAnswer}
+      ></SectionInput>
     </>
   );
 };

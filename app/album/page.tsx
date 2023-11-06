@@ -10,6 +10,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import AlertDialogSlide from "@/components/home/alert";
+import { list } from "firebase/storage";
 type Props = {
   id: string;
   payload: {
@@ -134,11 +135,43 @@ const Album = ({
   const [numberPages, setNumberPages] = useState<number>(0);
   const [pages, setPages] = useState<number>(1);
   const [data, setData] = useState<any>(
-    JSON.parse(localStorage.getItem("points") || `${fakeData}`) 
+    JSON.parse(localStorage.getItem("points") || "false") || fakeData
   );
   const toTop = useRef<HTMLDivElement>(null);
   const HandlePages = (page: number) => {
     setPages(page);
+  };
+  const updateListCard = (listCard: any, newElementListCard: any) => {
+    const newListCard = {
+      url:
+        newElementListCard?.payload?.filetype == "keyframe" ||
+        newElementListCard?.payload?.filetype == "video"
+          ? newElementListCard?.payload?.keyframes_url
+            ? newElementListCard?.payload?.keyframes_url[0]
+            : "/"
+          : newElementListCard?.payload.url,
+      id: newElementListCard?.id,
+      filetype: newElementListCard?.payload?.filetype,
+      video_url: newElementListCard?.payload?.url,
+      video_id: newElementListCard?.payload?.video_id,
+      times:
+        newElementListCard?.payload?.frame_idx &&
+        newElementListCard?.payload?.fps
+          ? newElementListCard?.payload?.frame_idx /
+            newElementListCard?.payload?.fps
+          : 1,
+      timestamp: newElementListCard?.payload?.timestamp,
+    };
+    return [...listCard, newListCard];
+  };
+  const isSameDate = (currentElement: any, nextElement: any, index: number) => {
+    if (
+      Math.floor(currentElement?.payload?.timestamp / 86400) !=
+        Math.floor(nextElement?.payload?.timestamp / 86400) ||
+      index == 49
+    )
+      return true;
+    return false;
   };
   const binarySearch = (start: number, target: string, end: number): any => {
     if (end - start <= 0) {
@@ -159,7 +192,7 @@ const Album = ({
     setPages(Math.floor(target / 50) + 1);
   };
   let listCard: any = [];
-  const post = async () => {
+  const getAlbum = async () => {
     try {
       await axios
         .get(`https://glimpse.serveo.net/scroll`, {
@@ -186,7 +219,7 @@ const Album = ({
     toTop?.current?.scrollIntoView({ behavior: "smooth" });
   }, [pages]);
   useEffect(() => {
-    post();
+    getAlbum();
   }, [isUpload]);
   const moth = [
     "January",
@@ -205,37 +238,12 @@ const Album = ({
   return (
     <>
       <AlertDialogSlide setOpen={setOpen} open={open} findDay={findDay} />
-      <div ref={toTop} className="w-0 h-0 absolute top-0"></div>
+      <div ref={toTop} className="w-[1px] h-[1px] absolute top-0"></div>
       {array.map((e, index: number) => {
         const position = (pages - 1) * 50 + index;
         const times = new Date(data[position]?.payload?.timestamp * 1000);
-        listCard = [
-          ...listCard,
-          {
-            url:
-              data[position]?.payload?.filetype == "keyframe" ||
-              data[position]?.payload?.filetype == "video"
-                ? data[position]?.payload?.keyframes_url
-                  ? data[position]?.payload?.keyframes_url[0]
-                  : "/"
-                : data[position]?.payload.url,
-            id: data[position]?.id,
-            filetype: data[position]?.payload?.filetype,
-            video_url: data[position]?.payload?.url,
-            video_id: data[position]?.payload?.video_id,
-            times:
-              data[position]?.payload?.frame_idx && data[position]?.payload?.fps
-                ? data[position]?.payload?.frame_idx /
-                  data[position]?.payload?.fps
-                : 1,
-            timestamp: data[position]?.payload?.timestamp,
-          },
-        ];
-        if (
-          Math.floor(data[position]?.payload?.timestamp / 86400) !=
-            Math.floor(data[position + 1]?.payload?.timestamp / 86400) ||
-          index == 49
-        ) {
+        listCard = updateListCard(listCard, data[position]);
+        if (isSameDate(data[position], data[position + 1], index)) {
           const arr = isLoading
             ? listCard
             : Array(Math.floor(Math.random() * 5 + 1)).fill(1);
@@ -280,12 +288,7 @@ const Album = ({
         <li className="">
           <Button
             onClick={() => {
-              // HandlePages(1);
-              window.scroll({
-                top: 0,
-                left: 0,
-                behavior: "smooth",
-              });
+              HandlePages(1);
             }}
             className="p-0 max-w-[20px] h-[40px]"
             variant="outlined"

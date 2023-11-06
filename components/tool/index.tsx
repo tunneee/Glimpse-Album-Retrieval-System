@@ -77,7 +77,7 @@ function Tool({ setOpen, setUpload, isUpload }: any) {
   return (
     <>
       <article
-        className={`md:h-full sm:h-[30px] l  sm:hidden md:flex overflow-hidden md:static absolute right-0 bottom-[55px] justify-center   lg:py-[80px] md:py-[60px]`}
+        className={`md:h-full z-50 sm:h-[30px] l  sm:hidden md:flex overflow-hidden md:static absolute right-0 bottom-[55px] justify-center   lg:py-[80px] md:py-[60px]`}
       >
         <div className="bg-[#202020]  h-full sm:w-[calc(100%-60px)]  sm:rounded-full flex md:flex-col justify-between items-center xl:w-[80px] lg:w-[50px] md:w-[30px]  md:rounded-hidden sm:px-[20px]  sm:py-0 md:px-0">
           <input
@@ -161,7 +161,7 @@ function Tool({ setOpen, setUpload, isUpload }: any) {
           <input className="hidden" type="button" id="reload" />
           <label
             onClick={() => {
-              router.reload();
+              router.refresh();
             }}
             onMouseEnter={(e: React.MouseEvent) => {
               setStatus({
@@ -186,7 +186,7 @@ function Tool({ setOpen, setUpload, isUpload }: any) {
         </div>
       </article>
       <article
-        className={`md:h-full sm:h-[30px] left-1/2 translate-x-[-50%] sm:w-[calc(100%-60px)] rounded-full  md:hidden sm:flex overflow-hidden md:static sm:absolute bottom-[55px]  justify-center   lg:py-[80px] md:py-[60px]`}
+        className={`md:h-full z-50  sm:h-[30px] left-1/2 translate-x-[-50%] sm:w-[calc(100%-60px)] rounded-full  md:hidden sm:flex overflow-hidden md:static sm:absolute bottom-[55px]  justify-center   lg:py-[80px] md:py-[60px]`}
       >
         <motion.div
           animate={isScroll ? "not" : "is"}
@@ -224,6 +224,9 @@ function Tool({ setOpen, setUpload, isUpload }: any) {
           </label>
           <input className="hidden" type="button" id="position" />
           <label
+            onClick={() => {
+              setOpen(true);
+            }}
             htmlFor="position"
             className={`${isScroll ? "hidden" : "block"} `}
           >
