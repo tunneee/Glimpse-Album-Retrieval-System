@@ -58,7 +58,7 @@ const Face = () => {
       name: "",
       payload: {
         url: "https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/398196250_819992589920906_2345198132184999586_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=RKQwJbaFytgAX8VojWl&_nc_oc=AQmKn7assqDqEWr5tipLVaVDShIYMuPB3RZjCSaywWOsTLOPdbj9RLFZtD4YNC0uQM0&_nc_ht=scontent.fdad1-4.fna&oh=00_AfC6qmZ7rewEtKaoWTyVUalx3NBE5nnggWl5zKGdelu8tQ&oe=654E5A75",
-        image_url: ["", "", "", "", "", "", ""],
+        image_url: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
         image_uuid: ["1", "2", "3"],
       },
     },
@@ -76,8 +76,8 @@ const Face = () => {
       name: "",
       payload: {
         url: "https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/398196250_819992589920906_2345198132184999586_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=RKQwJbaFytgAX8VojWl&_nc_oc=AQmKn7assqDqEWr5tipLVaVDShIYMuPB3RZjCSaywWOsTLOPdbj9RLFZtD4YNC0uQM0&_nc_ht=scontent.fdad1-4.fna&oh=00_AfC6qmZ7rewEtKaoWTyVUalx3NBE5nnggWl5zKGdelu8tQ&oe=654E5A75",
-        image_url: ["", "", "", ""],
-        image_uuid: ["1", "2", "3"],
+        image_url: ["", "", "", "",""],
+        image_uuid: ["1", "2", "3","4"],
       },
     },
   ]);
@@ -243,7 +243,7 @@ const Face = () => {
                     handleTransformScroll(
                       face.id,
                       index,
-                      transformScrollEvent[index] - 100
+                      transformScrollEvent[index] - 800
                     )
                   }
                   icon={arrow_left}
@@ -255,12 +255,17 @@ const Face = () => {
                     handleTransformScroll(
                       face.id,
                       index,
-                      transformScrollEvent[index] + 100
+                      transformScrollEvent[index] + 800
                     )
                   }
                   icon={arrow_right}
                   right
-                  disable={isScrollEnd[index] ? true : false}
+                  disable={
+                    isScrollEnd[index] ||
+                    face?.payload?.image_url?.length <= 5
+                      ? true
+                      : false
+                  }
                 />
 
                 <ul
