@@ -21,8 +21,12 @@ import toolbar from "../assets/images/user_manual/toolbar.png";
 import face from "../assets/images/user_manual/face.png";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import Top from "../assets/images/home/top";
-import Bottom from "../assets/images/home/bottom";
+import { useCallback } from "react";
+import Particles from "react-particles";
+import type { Container, Engine } from "tsparticles-engine";
+import { Particles_option } from "@/components/particles/index";
+import { loadFull } from "tsparticles";
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -40,21 +44,61 @@ const variants = {
     },
   }),
 };
+const duration = Array(50)
+  .fill(0)
+  .map((number) => (number = Math.floor(Math.random() * 10 + 300)));
+const random = Array(50)
+  .fill(0)
+  .map((number) => (number = Math.floor(Math.random() * 360)));
 const Page = () => {
   const currentPage = usePathname();
   const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
   const [page, setPage] = React.useState<number>(0);
+  const [screen, setScreen] = React.useState<number>(window.screen.width);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const particlesInit = useCallback(async (engine: any) => {
+    // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+    // starting from v2 you can add only the features you need reducing the bundle size
+    //await loadFull(engine);
+    await loadFull(engine);
+  }, []);
+
+  const particlesLoaded = useCallback(async (container: any) => {}, []);
+  const effect = {
+    animate: (index: number) => ({
+      rotate: [random[index], random[index] + 360],
+      transition: {
+        type: "linear",
+        scale: index + 1,
+        delay: 0,
+        times: [0, 1],
+        duration: duration[index],
+        repeat: Infinity,
+      },
+    }),
+  };
   const handleClose = () => {
     setOpen(false);
   };
   const handlePage = (number: number) => {
     setPage(number);
   };
+  React.useEffect(() => {
+    window.addEventListener("resize", (event) => {
+      const target = event.target as Window;
+      setScreen(target.innerWidth);
+    });
+  }, []);
   return (
     <>
+      <Particles
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={Particles_option}
+      ></Particles>
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -127,7 +171,7 @@ const Page = () => {
         <DialogActions className=" w-full">
           <div className="flex justify-between relative px-[20px] w-full">
             <div className="flex justify-between w-1/2">
-              <Link className="text-[#202020]" href={"/album"}>
+              <Link className="text-[#202020]" href={"album"}>
                 I understand
               </Link>
               <ul
@@ -195,6 +239,7 @@ const Page = () => {
                 if (page < 4) handlePage(page + 1);
                 else {
                   router.push("/album");
+                  router.forward();
                 }
               }}
               variant="contained"
@@ -204,16 +249,14 @@ const Page = () => {
           </div>
         </DialogActions>
       </Dialog>
-      {/* <Top className="absolute rotate-[180deg] top-0 left-0 right-0"></Top> */}
-      {/* <Bottom className="absolute bottom-0 left-0 right-0 w-full"></Bottom> */}
-      <div className="flex  flex-col justify-center gap-[60px] w-[calc(100vw-20px)] h-[calc(100vh-20px)] items-center">
+      <div className="flex pointer-events-none flex-col justify-center gap-[60px] items-center z-10 ">
         <div className="flex justify-center gap-[10px]">
           <Image
             src={logo}
             alt="logo glimpse"
             width={100}
             height={100}
-            className="aspect-[1/1] lg:w-[100px] md:w-[75px] sm:w-[50px]"
+            className="aspect-[1/1] lg:w-[100px] md:w-[75px] sm:w-[100px]"
           ></Image>
           <h1 className="font-[700] lg:text-[100px] md:text-[75px] sm:text-[50px] text-[#202020] ">
             GLIMPSE
@@ -228,9 +271,9 @@ const Page = () => {
           >
             User manual
           </button>
-          <Link
+          <a
             href={"./album"}
-            className="group p-[10px_20px] lg:text-[24px] md:text-[20px] sm:text-[16px] relative font-[500] border-[2px] border-[#202020] rounded-full overflow-hidden"
+            className="group p-[10px_20px] pointer-events-auto lg:text-[24px] md:text-[20px] sm:text-[16px] relative font-[500] border-[2px] border-[#202020] rounded-full overflow-hidden"
           >
             <p className="z-10 absolute whitespace-nowrap text-[#202020] top-1/2 left-1/2 translate-x-[-50%] font-[500] transition-transform ease-in duration-300 delay-100 translate-y-[-50%] group-hover:translate-y-[-200%]">
               Go to album
@@ -240,7 +283,7 @@ const Page = () => {
             </p>
             <p className="opacity-0">Go to album</p>
             <span className="z-0 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] rounded-full bg-[#202020] aspect-[1/1] origin-center lg:w-[200px] md:w-[175px] sm:w-[150px] scale-0 transition-transform ease-out duration-700 group-hover:scale-[100%]"></span>
-          </Link>
+          </a>
         </div>
       </div>
     </>

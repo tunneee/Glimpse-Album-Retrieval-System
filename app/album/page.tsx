@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import Card from "@/components/home/card";
 import SectionInput from "@/components/SectionInput";
@@ -10,7 +10,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import AlertDialogSlide from "@/components/home/alert";
-import { list } from "firebase/storage";
+import { context } from "@/components/contextProvide";
 type Props = {
   id: string;
   payload: {
@@ -38,19 +38,7 @@ type CardProps = {
   video_id: string;
   timestamp: number;
 };
-const Album = ({
-  setOpen,
-  open,
-  isLoading,
-  setLoading,
-  isUpload,
-}: {
-  setOpen: any;
-  open: boolean;
-  isLoading: boolean;
-  setLoading: any;
-  isUpload: boolean;
-}) => {
+const Album = () => {
   const fakeData = [
     {
       id: "03bfea6d-d163-4a16-bd9c-7cf6faca2d0a",
@@ -131,8 +119,10 @@ const Album = ({
     if (a.payload.timestamp < b.payload.timestamp) return 1;
     if (a.payload.timestamp > b.payload.timestamp) return -1;
   });
+  const { open, setOpen, API } = useContext(context);
   const array = Array(50).fill(1);
   const [numberPages, setNumberPages] = useState<number>(0);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [pages, setPages] = useState<number>(1);
   const [data, setData] = useState<any>(
     JSON.parse(localStorage.getItem("points") || "false") || fakeData
@@ -195,10 +185,8 @@ const Album = ({
   const getAlbum = async () => {
     try {
       await axios
-        .get(`https://glimpse.serveo.net/scroll`, {
-          headers: {
-            "content-type": "application/json",
-          },
+        .get(`${API}/scroll`, {
+          headers: { "ngrok-skip-browser-warning": 123 },
         })
         .then(async (res) => {
           setLoading(true);
@@ -211,16 +199,14 @@ const Album = ({
           setNumberPages(Math.floor(res.data.points.length / 50));
           setData(result);
         });
-    } catch (error) {
-      console.log(error);
-    }
+    } catch {}
   };
   useEffect(() => {
     toTop?.current?.scrollIntoView({ behavior: "smooth" });
   }, [pages]);
   useEffect(() => {
     getAlbum();
-  }, [isUpload]);
+  }, []);
   const moth = [
     "January",
     "February",
@@ -244,9 +230,7 @@ const Album = ({
         const times = new Date(data[position]?.payload?.timestamp * 1000);
         listCard = updateListCard(listCard, data[position]);
         if (isSameDate(data[position], data[position + 1], index)) {
-          const arr = isLoading
-            ? listCard
-            : Array(Math.floor(Math.random() * 5 + 1)).fill(1);
+          const arr = isLoading ? listCard : Array(index % 6).fill(1);
           listCard = [];
           return (
             <div
@@ -266,10 +250,10 @@ const Album = ({
                 id="list"
                 className="flex justify-start md:gap-[10px] sm:gap-[8px] flex-wrap "
               >
-                {arr.map((card: CardProps) => (
+                {arr.map((card: CardProps, index: number) => (
                   <Card
                     isLoading={isLoading}
-                    id={card.id}
+                    id={`${card.id}${index}`}
                     key={card.id}
                     url={card.url}
                     filetype={card.filetype}

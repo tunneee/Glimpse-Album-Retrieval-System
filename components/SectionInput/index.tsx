@@ -21,7 +21,6 @@ const SectionInput = ({ setLoading, setListAnswer }: any) => {
       } catch {}
     }
   };
-  const body = document.querySelector("body");
   const content = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<string>("");
   const [autoFocus, setAutoFocus] = useState<boolean>(false);
@@ -43,7 +42,7 @@ const SectionInput = ({ setLoading, setListAnswer }: any) => {
       className={` absolute bottom-[10px] h-[auto]  rounded-[0_0_0px_20px] xl:w-[800px] lg:w-[600px] md:w-[calc(100%-40px)] sm:w-[calc(100%-30px)] xl:py-[20px] lg:py-[10px] sm:py-[1.5px] md:pb-[40px] left-1/2 translate-x-[calc(-50%)]`}
     >
       <div className="bg-[#202020] h-[auto] gap-[10px] w-[100%] justify-between lg:h-[80px] md:min-h-[40px] flex  rounded-[10px] overflow-hidden md:px-[20px] sm:px-[10px] lg:py-[15px] md:py-[10px]">
-        <div className="w-4/5 ">
+        <div className="w-4/5 flex flex-col lg:items-start sm:justify-center">
           <div
             ref={content}
             onClick={(e) => {
@@ -68,9 +67,9 @@ const SectionInput = ({ setLoading, setListAnswer }: any) => {
             }}
             contentEditable={true}
             id="content"
-            className="relative h-full flex align-middle items-center break-words md:text-[16px] sm:text-[10px] lg:h-[25px] md:min-h-[20px] sm:min-h-full bg-[transparent] placeholder:text-[#ffffff81]  xl:w-full outline-0 caret-[#fff] text-[#fff]"
+            className="relative w-full h-full flex  align-middle items-center break-words md:text-[16px] sm:text-[10px] lg:h-[25px] md:h-[20px] sm:h-[15px] bg-[transparent] placeholder:text-[#ffffff81]  xl:w-full outline-0 caret-[#fff] text-[#fff]"
           >
-            <p className="z-[2] h-[auto] min-h-full flex items-center"></p>
+            <p className="z-[2] h-[auto] min-h-[100%] flex items-center"></p>
             {autoFocus || text.length !== 0 ? (
               ""
             ) : (
@@ -90,7 +89,7 @@ const SectionInput = ({ setLoading, setListAnswer }: any) => {
               </p>
             )}
           </div>
-          <span className="text-[#ffffff81] lg:block sm:hidden">
+          <span className="text-[#ffffff81] lg:flex items-start sm:hidden">
             {text.length}/2000
           </span>
         </div>

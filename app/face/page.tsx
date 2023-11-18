@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
@@ -18,6 +18,7 @@ import arrow_left from "@/assets/images/face/arrow_left.svg";
 import Image from "next/image";
 import ButtonArrow from "@/components/face/button_arrow";
 import { motion } from "framer-motion";
+import { context } from "@/components/contextProvide";
 import { Skeleton } from "@mui/material";
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -30,6 +31,7 @@ const Transition = React.forwardRef(function Transition(
 
 const Face = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
+  const { API } = useContext(context);
   const [isScrollEnd, setScrollEnd] = useState<Array<boolean>>([]);
   const [transformScrollEvent, setTransformScrollEvent] = useState<
     Array<number>
@@ -58,7 +60,25 @@ const Face = () => {
       name: "",
       payload: {
         url: "https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/398196250_819992589920906_2345198132184999586_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=RKQwJbaFytgAX8VojWl&_nc_oc=AQmKn7assqDqEWr5tipLVaVDShIYMuPB3RZjCSaywWOsTLOPdbj9RLFZtD4YNC0uQM0&_nc_ht=scontent.fdad1-4.fna&oh=00_AfC6qmZ7rewEtKaoWTyVUalx3NBE5nnggWl5zKGdelu8tQ&oe=654E5A75",
-        image_url: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+        image_url: [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+        ],
         image_uuid: ["1", "2", "3"],
       },
     },
@@ -76,8 +96,8 @@ const Face = () => {
       name: "",
       payload: {
         url: "https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/398196250_819992589920906_2345198132184999586_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=RKQwJbaFytgAX8VojWl&_nc_oc=AQmKn7assqDqEWr5tipLVaVDShIYMuPB3RZjCSaywWOsTLOPdbj9RLFZtD4YNC0uQM0&_nc_ht=scontent.fdad1-4.fna&oh=00_AfC6qmZ7rewEtKaoWTyVUalx3NBE5nnggWl5zKGdelu8tQ&oe=654E5A75",
-        image_url: ["", "", "", "",""],
-        image_uuid: ["1", "2", "3","4"],
+        image_url: ["", "", "", "", ""],
+        image_uuid: ["1", "2", "3", "4"],
       },
     },
   ]);
@@ -87,9 +107,9 @@ const Face = () => {
   const getFace = async () => {
     try {
       await axios
-        .get(`https://glimpse.serveo.net/get_face_data`, {
+        .get(`${API}/get_face_data`, {
           headers: {
-            "content-type": "application/json",
+            "ngrok-skip-browser-warning": 123,
           },
         })
         .then(async (res) => {
@@ -113,14 +133,15 @@ const Face = () => {
   };
   const upadateName = () => {
     try {
-      axios.get(
-        `https://glimpse.serveo.net/update_name/${uuidOfRename}/${reName}`
-      );
-      setOpen(false);
-      const arr: any = data?.map((element: any) => {
-        if (element.id === uuidOfRename) element.name = reName;
-      });
-      setData(arr);
+      axios
+        .get(`https://glimpse.serveo.net/update_name/${uuidOfRename}/${reName}`)
+        .then(() => {
+          setOpen(false);
+          const arr: any = data?.map((element: any) => {
+            if (element.id === uuidOfRename) element.name = reName;
+          });
+          setData(arr);
+        });
     } catch (err) {
       console.log("first", err);
     }
@@ -204,28 +225,72 @@ const Face = () => {
       <div className="w-full">
         {data?.map((face: any, index: number) => (
           <div
-            key={face.id}
-            className="flex flex-col justify-start  md:gap-[10px] sm:gap-[8px]  py-[10px] overflow-x-hidden"
+            key={face?.id}
+            className="flex flex-col justify-start  md:gap-[10px] sm:gap-[8px]  py-[10px]"
           >
             <div className=" ">
-              <div className="top-0 left-0 flex gap-[20px] justify-start items-center">
-                <h2>{face.name || "Name"}</h2>
-                <button
-                  onClick={() => {
-                    handleEditName(face.id);
-                  }}
-                  className="flex items-center justify-center"
-                >
-                  <Image src={EditIcon} alt="edit icon text-[#202020]"></Image>
-                </button>
-              </div>
+              {isLoading ? (
+                <div className="top-0 left-0 flex md:gap-[10px] sm:gap-[8px]  justify-start items-center ">
+                  <div className="xl:min-w-[170px] gap-[20px] flex lg:min-w-[calc((100%-40px)/5)] md:min-w-[calc((100%-30px)/4)] ssm:min-w-[calc((100%-24px)/4)] sm:min-w-[calc((100%-16px)/3)] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)]">
+                    <label htmlFor={face?.id} className="cursor-pointer">
+                      <h2>{face?.name || "Name"}</h2>
+                    </label>
+
+                    <button
+                      id={face?.id}
+                      onClick={() => {
+                        handleEditName(face.id);
+                      }}
+                      className="flex items-center justify-center"
+                    >
+                      <Image
+                        src={EditIcon}
+                        alt="edit icon text-[#202020]"
+                      ></Image>
+                    </button>
+                  </div>
+                  <div className="w-full h-full flex items-stretch relative">
+                    <ButtonArrow
+                      onClick={() =>
+                        handleTransformScroll(
+                          face?.id,
+                          index,
+                          transformScrollEvent[index] - 800
+                        )
+                      }
+                      icon={arrow_left}
+                      disable={transformScrollEvent[index] === 0 ? true : false}
+                      left
+                    />
+                    <ButtonArrow
+                      onClick={() =>
+                        handleTransformScroll(
+                          face.id,
+                          index,
+                          transformScrollEvent[index] + 800
+                        )
+                      }
+                      icon={arrow_right}
+                      right
+                      disable={
+                        isScrollEnd[index] ||
+                        face?.payload?.image_url?.length <= 5
+                          ? true
+                          : false
+                      }
+                    />
+                  </div>
+                </div>
+              ) : (
+                <Skeleton width={100} height={40} className="w-full h-full" />
+              )}
             </div>
             <div className="flex overflow-x-hidden w-full items-center">
               <picture className="w-full xl:min-w-[170px] lg:min-w-[calc((100%-40px)/5)] md:min-w-[calc((100%-30px)/4)] ssm:min-w-[calc((100%-24px)/4)] sm:min-w-[calc((100%-16px)/3)] block rounded-full overflow-hidden aspect-[1/1] xl:w-[170px] lg:w-[calc((100%-40px)/5)] md:w-[calc((100%-30px)/4)] ssm:w-[calc((100%-24px)/4)] sm:w-[calc((100%-16px)/3)]">
                 {isLoading ? (
                   <LazyLoadImage
                     key={face.id}
-                    src={`${face.payload.url}?tr=w-500,h-500`}
+                    src={`${face?.payload?.url}?tr=w-500,h-500`}
                     className="w-full h-full"
                   ></LazyLoadImage>
                 ) : (
@@ -237,58 +302,28 @@ const Face = () => {
                   />
                 )}
               </picture>
-              <div className="w-full relative overflow-hidden ">
-                <ButtonArrow
-                  onClick={() =>
-                    handleTransformScroll(
-                      face.id,
-                      index,
-                      transformScrollEvent[index] - 800
-                    )
-                  }
-                  icon={arrow_left}
-                  disable={transformScrollEvent[index] === 0 ? true : false}
-                  left
-                />
-                <ButtonArrow
-                  onClick={() =>
-                    handleTransformScroll(
-                      face.id,
-                      index,
-                      transformScrollEvent[index] + 800
-                    )
-                  }
-                  icon={arrow_right}
-                  right
-                  disable={
-                    isScrollEnd[index] ||
-                    face?.payload?.image_url?.length <= 5
-                      ? true
-                      : false
-                  }
-                />
-
+              <div className="w-full overflow-hidden ">
                 <ul
                   id={face.id}
                   onScroll={(e: React.UIEvent<HTMLUListElement>) =>
                     handleScroll(e, index)
                   }
                   //
-                  className={`touch-auto scroll-none overflow-x-scroll snap-x  ease-in flex relative justify-start md:gap-[10px] w-full sm:gap-[8px]  p-[10px] `}
+                  className={`touch-auto scroll-none overflow-x-scroll snap-x  ease-in flex justify-start md:gap-[10px] w-full sm:gap-[8px]  p-[10px] `}
                 >
                   {face?.payload?.image_url?.map(
                     (imageFace: any, index: number) => (
                       <Card
                         key={face?.payload?.image_uuid[index]}
                         isLoading={isLoading}
-                        id={face?.payload?.image_uuid[index]}
+                        id={`${face?.payload?.image_uuid[index]}${index}`}
                         url={`${imageFace}?tr=w-150,h-150`}
                         filetype={"image"}
                         hiddenType
                       ></Card>
                     )
                   )}
-                </ul>
+                </ul>{" "}
               </div>
             </div>
           </div>

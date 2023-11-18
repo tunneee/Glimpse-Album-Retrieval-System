@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import imageIcon from "@/assets/images/home/image.svg";
 import videoIcon from "@/assets/images/home/video.svg";
 import { useState } from "react";
@@ -14,6 +14,8 @@ import style from "./style.module.css";
 import axios from "axios";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "react-lazy-load-image-component/src/effects/opacity.css";
+import { context } from "@/components/contextProvide";
+
 type Props = {
   url?: string | undefined | null;
   filetype?: string | undefined | null;
@@ -51,8 +53,10 @@ const Card = (props: Props) => {
   const [isContinue, setContinue] = useState<boolean>(false);
   const [isSelect, setSelect] = useState<boolean>(false);
   const [isHover, setHover] = useState<boolean>(false);
-
+  const { setView } = useContext(context);
   let stillPreview: any = null;
+  const viewElement = document.getElementById("view");
+
   const time = new Date(props?.timestamp ? props?.timestamp * 1000 : -1);
   const date = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const moth = [
@@ -69,6 +73,11 @@ const Card = (props: Props) => {
     "Nov",
     "Dec",
   ];
+  // useEffect(() => {
+  //   window.addEventListener("mousemove", (e) => {
+  //     console.log("e", e);
+  //   });
+  // });
   useEffect(() => {
     if (!isContinue)
       return () => {
@@ -109,11 +118,27 @@ const Card = (props: Props) => {
       video!.currentTime = props?.times > 5 ? props?.times - 5 : 5;
     video?.pause();
   };
-  const [isplay, setplay] = useState<boolean>(false);
+  const getTypeFile = (type = "image", target: string | undefined | null) => {
+    let result = "";
+    switch (type) {
+      case "image":
+        result = `image(${target?.split(".").slice(-1)[0].slice(0, 3)})`;
+        break;
+      case "video":
+        result = `video(${target?.split(".").slice(-1)})`;
+    }
+    return result;
+  };
   if (props.isLoading)
     return (
       <>
         <motion.li
+          onMouseEnter={() => {
+            setView(true);
+          }}
+          onMouseLeave={(e) => {
+            if (viewElement !== e.relatedTarget) setView(false);
+          }}
           animate="show"
           initial="hidden"
           variants={setClick}
@@ -275,14 +300,10 @@ const Card = (props: Props) => {
                   <div className=" lg:w-full flex flex-col gap-[20px] lg:py-[40px] lg:px-[20px] sm:py-[10px] sm:px-[20px]">
                     <span className="flex sm:flex-col md:flex-row  items-baseline">
                       <h4 className="font-[500] text-[1.2em]">Filetype : </h4>
-                      <p className="font-[300] text-[1em]">{` ${
-                        props?.filetype == "image"
-                          ? `image(${props?.url
-                              ?.split(".")
-                              .slice(-1)
-                              .slice(0, 4)})`
-                          : `video(${props?.video_url?.split(".").slice(-1)})`
-                      } `}</p>
+                      <p className="font-[300] text-[1em]">{` ${getTypeFile(
+                        props?.filetype || undefined,
+                        props?.url
+                      )} `}</p>
                     </span>
                     <span className="flex sm:flex-col md:flex-row  items-baseline">
                       <h4 className="font-[500] text-[1.2em] ">Date : </h4>

@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Card from "@/components/home/card";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import SectionInput from "@/components/SectionInput";
+import { context } from "@/components/contextProvide";
 import axios from "axios";
 type ImageProps = {
   id: string;
@@ -22,6 +23,7 @@ type ImageProps = {
 const Index = () => {
   const [render, reRender] = useState<boolean>(false);
   const [data, setData] = useState<any>([]);
+  const { API } = useContext(context);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [listAnswer, setListAnswer] = useState(() => {
     const result = JSON.parse(
@@ -34,7 +36,9 @@ const Index = () => {
   const getNewAnswer = async (result: string) => {
     try {
       await axios
-        .get(`https://glimpse.serveo.net/search/${result}`)
+        .get(`${API}/search/${result}`, {
+          headers: { "ngrok-skip-browser-warning": 123 },
+        })
         .then((res) => {
           setData(res.data.points);
           setLoading(true);
